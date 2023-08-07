@@ -1,0 +1,14 @@
+[package]
+name = "Leptos-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+leptos = { version = "0.4.6", features = ["csr"] }
+leptos_router = { version = "0.4.6", features = ["csr"] }
+console_error_panic_hook = "0.1.7"
+wasm-bindgen = "0.2.85"
+js-sys = "0.3.62"
+web-sys = "0.3.64"
+console_log = "1"
+log = "0.4"

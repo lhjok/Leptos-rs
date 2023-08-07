@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .btn-primary {
+        @apply bg-indigo-500 px-4 py-2 text-sm
+        rounded-md border text-white hover:border-white
+        border-indigo-500 active:scale-95 transition-all;
+    }
+    .btn-secondary {
+        @apply whitespace-nowrap items-center rounded
+        bg-primary px-6 pb-2 pt-2.5 text-xs font-medium
+        uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca]
+        transition duration-150 ease-in-out hover:bg-primary-600
+        hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]
+        focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]
+        focus:outline-none focus:ring-0 active:bg-primary-700
+        active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]
+        motion-reduce:transition-none dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)]
+        dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]
+        dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]
+        dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)];
+    }
+    .ul-menu {
+        @apply absolute z-[1000] float-left m-0 min-w-max list-none
+        rounded-lg border-none bg-white bg-clip-padding hidden overflow-hidden
+        text-left text-base shadow-lg dark:bg-neutral-700;
+    }
+    .li-menu {
+        @apply whitespace-nowrap bg-transparent px-4 py-2 disabled:bg-transparent
+        text-sm font-normal text-neutral-700 hover:bg-neutral-100 pl-5 pr-20 block
+        active:text-neutral-800 active:no-underline disabled:pointer-events-none
+        w-full disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600;
+    }
+}
