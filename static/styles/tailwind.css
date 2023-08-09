@@ -28,9 +28,12 @@
         text-left text-base shadow-lg dark:bg-neutral-700;
     }
     .li-menu {
-        @apply whitespace-nowrap bg-transparent px-4 py-2 disabled:bg-transparent
-        text-sm font-normal text-neutral-700 hover:bg-neutral-100 pl-5 pr-20 block
+        @apply whitespace-nowrap bg-transparent disabled:bg-transparent
+        text-sm font-normal text-neutral-700 hover:bg-neutral-100 block
         active:text-neutral-800 active:no-underline disabled:pointer-events-none
-        w-full disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600;
+        disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600;
+    }
+    .li-menu a {
+        @apply block px-4 py-2 pl-5 pr-20 w-full;
     }
 }
