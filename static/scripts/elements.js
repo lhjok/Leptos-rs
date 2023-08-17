@@ -2,13 +2,12 @@ import { Dropdown } from '/node_modules/tw-elements/dist/js/tw-elements.es.min.j
 
 export function initDropdown(opt) {
     const trigger = document.querySelectorAll(opt);
-    const triggers = [].slice.call(trigger);
-    triggers.forEach((el) => {
-        const dropdown = new Dropdown(el);
+    [...trigger].forEach((element) => {
+        const dropdown = new Dropdown(element);
         const handler = (e) => {
             e.preventDefault();
             dropdown.toggle();
         };
-        el.addEventListener('click', handler);
+        element.addEventListener('click', handler);
     });
 }
