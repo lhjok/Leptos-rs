@@ -1,8 +1,5 @@
 {
   "dependencies": {
-    "flowbite": "^1.7.0",
-    "geteventlisteners": "^1.1.0",
-    "swiper": "^10.0.4",
     "tw-elements": "^1.0.0-beta2"
   },
   "devDependencies": {

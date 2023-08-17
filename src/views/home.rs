@@ -2,19 +2,14 @@
 use leptos::*;
 use leptos_router::*;
 use wasm_bindgen::prelude::*;
+use js_sys::JSON;
 use std::rc::Rc;
 
-#[wasm_bindgen(module=
-"/static/scripts/swiper.js")]
+#[wasm_bindgen(module="/static/scripts\
+/swiper-bundle.esm.browser.min.js")]
 extern {
-    // 导入inti实例对象
-    #[wasm_bindgen(js_name= init)]
-    static INIT: JsValue;
     // 导出Swiper类型
     type Swiper;
-    // 创建Swiper实例(函数)
-    #[wasm_bindgen(js_name= newSwiper)]
-    fn new_swiper() -> Swiper;
     // 创建Swiper实例(构造函数)
     #[wasm_bindgen(constructor)]
     fn new(id: &str, init: &JsValue) -> Swiper;
@@ -28,10 +23,22 @@ extern {
 
 #[component]
 pub fn Home(cx: Scope) -> impl IntoView {
-    // let swiper= Rc::new(new_swiper());   // 方法一；实例化(函数)
-    let swiper= Rc::new(Swiper::new(".swiper", &INIT));   // 方法二；实例化(构造函数)
-    let listener= Rc::clone(&swiper);
-    let start= Rc::clone(&swiper);
+    // 解析Json格式到JsValue对象
+    let init = JSON::parse(r#"{
+        "init": false,
+        "direction": "horizontal",
+        "pagination": {
+            "el": ".swiper-pagination"
+        },
+        "navigation": {
+            "nextEl": ".swiper-button-next",
+            "prevEl": ".swiper-button-prev"
+        }
+    }"#).unwrap();
+    // 实例化(构造函数)
+    let swiper = Rc::new(Swiper::new(".swiper", &init));
+    let listener = Rc::clone(&swiper);
+    let start = Rc::clone(&swiper);
     on_cleanup(cx, move || { listener.detach_events(); });
     view! { cx,
         <div id="home">
