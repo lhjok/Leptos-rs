@@ -3,6 +3,7 @@ mod views;
 use leptos::*;
 use leptos_router::*;
 use views::{ Login, Home, Admin, Error };
+use leptonic::prelude::*;
 
 fn main() {
     console_error_panic_hook::set_once();
@@ -12,13 +13,15 @@ fn main() {
 #[component]
 fn App(cx: Scope) -> impl IntoView {
     view! { cx,
-        <Router>
-            <Routes>
-                <Route path="/" view=Home/>
-                <Route path="/login" view=Login/>
-                <Route path="/admin" view=Admin/>
-                <Route path="/404" view=Error/>
-            </Routes>
-        </Router>
+        <Root default_theme=LeptonicTheme::default()>
+            <Router>
+                <Routes>
+                    <Route path="/" view=Home/>
+                    <Route path="/login" view=Login/>
+                    <Route path="/admin" view=Admin/>
+                    <Route path="/404" view=Error/>
+                </Routes>
+            </Router>
+        </Root>
     }
 }

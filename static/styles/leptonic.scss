@@ -1,0 +1,30 @@
+@import "../../generated/leptonic/leptonic-themes";
+
+[data-theme="light"] {
+  --brand-color: #2181d4;
+  --drawer-background-color: none;
+  --drawer-box-shadow: none;
+  --input-background-color: #eeeeee;
+  --input-padding: 0.50em 0.75em 0.50em 0.75em;
+  --box-background-color: #ffffff;
+  --book-menu-background-color: var(--box-background-color);
+  --book-menu-header-color: #3e3434;
+  --book-menu-item-color: #3e3434;
+  --book-menu-item-active-color: var(--std-text-bright);
+  --book-menu-item-hover-color: var(--std-text-bright);
+}
+
+[data-theme="dark"] {
+  --brand-color: #2181d4;
+  --drawer-background-color: none;
+  --drawer-box-shadow: none;
+  --book-menu-background-color: var(--box-background-color);
+  --book-menu-header-color: var(--std-text-bright);
+  --book-menu-item-color: var(--std-text-bright);
+  --book-menu-item-active-color: var(--std-text-bright);
+  --book-menu-item-hover-color: var(--std-text-bright);
+}
+
+leptonic-input {
+  width: 100%;
+}
