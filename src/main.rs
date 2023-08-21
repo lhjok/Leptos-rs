@@ -2,7 +2,9 @@
 mod views;
 use leptos::*;
 use leptos_router::*;
-use views::{ Login, Home, Admin, Error };
+use views::{ Login, Signup, Home, Admin, Error };
+use views::pages::content::AdminIndex;
+use views::pages::AdminError;
 use leptonic::prelude::*;
 
 fn main() {
@@ -18,8 +20,14 @@ fn App(cx: Scope) -> impl IntoView {
                 <Routes>
                     <Route path="/" view=Home/>
                     <Route path="/login" view=Login/>
-                    <Route path="/admin" view=Admin/>
-                    <Route path="/404" view=Error/>
+                    <Route path="/signup" view=Signup/>
+                    <Route path="/admin" view=Admin>
+                         <Route path="index" view=AdminIndex/>
+                         <Route path="/*any" view=AdminError/>
+                         <Route path="" view=|cx| view! { cx,
+                             <Redirect path="/admin/index"/> }/>
+                    </Route>
+                    <Route path="/*any" view=Error/>
                 </Routes>
             </Router>
         </Root>

@@ -49,7 +49,7 @@ pub fn Home(cx: Scope) -> impl IntoView {
                     </div>
                     <div class="basis-60 ml-auto py-3">
                         <button class="btn-primary mx-4">
-                            <A href="404">"注册用户"</A>
+                            <A href="signup">"注册用户"</A>
                         </button>
                         <button class="btn-primary">
                             <A href="login">"用户登录"</A>

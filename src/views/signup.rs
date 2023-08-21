@@ -29,7 +29,7 @@ fn init_dropdown(id: &str) -> Result<Vec<(WebSysElement, Dropdown)>, JsValue> {
 }
 
 #[component]
-pub fn Login(cx: Scope) -> impl IntoView {
+pub fn Signup(cx: Scope) -> impl IntoView {
     let (name, set_name) = create_signal(cx, "".to_owned());
     let (pass, set_pass) = create_signal(cx, "".to_owned());
     request_animation_frame( move || {
@@ -67,7 +67,7 @@ pub fn Login(cx: Scope) -> impl IntoView {
                             </Stack>
 
                             <button type="submit" data-te-ripple-init data-te-ripple-color="light"
-                                class="inline-block w-full items-center justify-center btn-secondary">"登录"
+                                class="inline-block w-full items-center justify-center btn-secondary">"注册"
                             </button>
 
                             <div class="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t \
@@ -76,7 +76,7 @@ pub fn Login(cx: Scope) -> impl IntoView {
                             </div>
 
                             <button class="mb-5 flex w-full items-center justify-center btn-secondary" style="background-color: #3b5998">
-                                <A href="/">"注册用户"</A>
+                                <A href="/">"登录"</A>
                             </button>
 
                             <div class="relative" data-te-dropdown-ref>
