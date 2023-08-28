@@ -51,7 +51,7 @@ pub fn Signup(cx: Scope) -> impl IntoView {
                     </div>
 
                     <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
-                        <form>
+                        <Form method="GET" action="">
                             <Stack orientation=StackOrientation::Vertical spacing=Size::Em(1.2)>
                                 <Input get=name set=set_name label="Email address"/>
                                 <Input ty=InputType::Password get=pass set=set_pass label="Password"/>
@@ -75,9 +75,11 @@ pub fn Signup(cx: Scope) -> impl IntoView {
                                 <p class="mx-4 mb-0 text-center font-semibold dark:text-neutral-200">"OR"</p>
                             </div>
 
-                            <button class="mb-5 flex w-full items-center justify-center btn-secondary" style="background-color: #3b5998">
-                                <A href="/">"登录"</A>
-                            </button>
+                            <A href="/login">
+                                <button class="mb-5 flex w-full items-center justify-center btn-secondary" style="background-color: #3b5998">
+                                    "登录"
+                                </button>
+                            </A>
 
                             <div class="relative" data-te-dropdown-ref>
                                 <button type="button" id="dropdownMenuButton1"
@@ -97,7 +99,7 @@ pub fn Signup(cx: Scope) -> impl IntoView {
                                     <li class="li-menu text-center"><A href="/admin">"后台管理"</A></li>
                                 </ul>
                             </div>
-                        </form>
+                        </Form>
                     </div>
                 </div>
             </div>
