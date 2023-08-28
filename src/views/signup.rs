@@ -76,7 +76,7 @@ pub fn Signup(cx: Scope) -> impl IntoView {
                             </div>
 
                             <A href="/login">
-                                <button class="mb-5 flex w-full items-center justify-center btn-secondary" style="background-color: #3b5998">
+                                <button class="mb-5 flex w-full items-center justify-center btn-secondary">
                                     "登录"
                                 </button>
                             </A>
