@@ -2,14 +2,15 @@
 mod views;
 use leptos::*;
 use leptos_router::*;
+use console_error_panic_hook::set_once;
 use views::{ Login, Signup, Home, Admin, Error };
 use views::pages::content::AdminIndex;
 use views::pages::AdminError;
 use leptonic::prelude::*;
 
 fn main() {
-    console_error_panic_hook::set_once();
-    mount_to_body(|cx| view! { cx, <App/> })
+    set_once();
+    mount_to_body(App);
 }
 
 #[component]

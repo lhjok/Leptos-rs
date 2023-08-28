@@ -62,7 +62,7 @@ pub fn Login(cx: Scope) -> impl IntoView {
                                             "记住帐号"
                                         </label>
                                     </div>
-                                    <a href="#!" class="m-link" >"您忘记密码了吗?"</a>
+                                    <Link href="/">"您忘记密码了吗?"</Link>
                                 </div>
                             </Stack>
 
