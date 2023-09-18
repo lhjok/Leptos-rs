@@ -1,4 +1,5 @@
 #![allow(non_snake_case)]
+mod api;
 mod views;
 use leptos::*;
 use leptos_router::*;
@@ -23,10 +24,10 @@ fn App(cx: Scope) -> impl IntoView {
                     <Route path="/login" view=Login/>
                     <Route path="/signup" view=Signup/>
                     <Route path="/admin" view=Admin>
-                         <Route path="index" view=AdminIndex/>
-                         <Route path="/*any" view=AdminError/>
-                         <Route path="" view=|cx| view! { cx,
-                             <Redirect path="/admin/index"/> }/>
+                        <Route path="index" view=AdminIndex/>
+                        <Route path="/*any" view=AdminError/>
+                        <Route path="" view=|cx| view! { cx,
+                            <Redirect path="/admin/index"/> }/>
                     </Route>
                     <Route path="/*any" view=Error/>
                 </Routes>

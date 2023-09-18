@@ -6,6 +6,8 @@ use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
 use gloo_utils::document;
 use leptonic::prelude::*;
+use crate::api;
+use crate::api::AdminLogin;
 
 #[wasm_bindgen(module="/node_modules\
 /tw-elements/dist/js/tw-elements.es.min.js")]
@@ -32,6 +34,30 @@ fn init_dropdown(id: &str) -> Result<Vec<(WebSysElement, Dropdown)>, JsValue> {
 pub fn Login(cx: Scope) -> impl IntoView {
     let (name, set_name) = create_signal(cx, "".to_owned());
     let (pass, set_pass) = create_signal(cx, "".to_owned());
+    let (wait, set_wait) = create_signal(cx, false);
+    let action = create_action(cx, move |(name, pass)| {
+        let admin = AdminLogin { name, pass };
+        async move {
+            set_wait.update(|w| *w = true);
+            let result = api::admin_login("127.0.0.1:3000", admin).await;
+            set_wait.update(|w| *w = false);
+            if let Ok(res) = result {
+                if res.status == "1" {
+                    let navigate = use_navigate(cx);
+                    navigate("/admin", Default::default());
+                }
+            }
+        }
+    });
+    // 按下后按钮为不可激活状态
+    let disabled = Signal::derive(cx, move || wait.get());
+    // 执行按钮按下后，提交表单函数。
+    let dispatch = move || action.dispatch((name.get(), pass.get()));
+    // 执行按钮按下后，按钮点击状态函数。
+    let button_disabled = Signal::derive(cx, move || {
+        disabled.get() || pass.get().is_empty() || name.get().is_empty()
+    });
+    // 执行第三方JS初始化代码
     request_animation_frame( move || {
         let dropdowns = init_dropdown("[data-te-dropdown-toggle-ref]").unwrap();
         for (element, dropdown) in dropdowns.into_iter() {
@@ -51,7 +77,7 @@ pub fn Login(cx: Scope) -> impl IntoView {
                     </div>
 
                     <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
-                        <Form method="GET" action="">
+                        <form on:submit=|event| event.prevent_default()>
                             <Stack orientation=StackOrientation::Vertical spacing=Size::Em(1.2)>
                                 <Input get=name set=set_name label="Email address"/>
                                 <Input ty=InputType::Password get=pass set=set_pass label="Password"/>
@@ -66,8 +92,10 @@ pub fn Login(cx: Scope) -> impl IntoView {
                                 </div>
                             </Stack>
 
-                            <button type="submit" data-te-ripple-init data-te-ripple-color="light"
-                                class="inline-block w-full items-center justify-center btn-secondary">"登录"
+                            <button data-te-ripple-init data-te-ripple-color="light"
+                                class="inline-block w-full items-center justify-center btn-secondary"
+                                prop:disabled=move |_| button_disabled.get()
+                                on:click=move |_| dispatch()>"登录"
                             </button>
 
                             <div class="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t \
@@ -99,7 +127,7 @@ pub fn Login(cx: Scope) -> impl IntoView {
                                     <li class="li-menu text-center"><A href="/admin">"后台管理"</A></li>
                                 </ul>
                             </div>
-                        </Form>
+                        </form>
                     </div>
                 </div>
             </div>
