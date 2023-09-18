@@ -35,10 +35,12 @@ pub struct Error {
     pub message: String
 }
 
-pub async fn admin_login(url: & str, admin: AdminLogin) -> Result<AdminLoginRes, Error> {
-    let url = format!("{}/admin/login", url);
-    let response = Request::post(&url).json(&admin)?.send().await?;
-    into_json(response).await
+impl AdminLogin {
+    pub async fn login(&self, path: & str) -> Result<AdminLoginRes, Error> {
+        let url = format!("{}/admin/login", path);
+        let response = Request::post(&url).json(self)?.send().await?;
+        into_json(response).await
+    }
 }
 
 async fn into_json<T>(response: Response) -> Result<T, Error>

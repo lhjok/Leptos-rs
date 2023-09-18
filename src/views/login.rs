@@ -6,7 +6,6 @@ use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
 use gloo_utils::document;
 use leptonic::prelude::*;
-use crate::api;
 use crate::api::AdminLogin;
 
 #[wasm_bindgen(module="/node_modules\
@@ -39,7 +38,7 @@ pub fn Login(cx: Scope) -> impl IntoView {
         let admin = AdminLogin { name, pass };
         async move {
             set_wait.update(|w| *w = true);
-            let result = api::admin_login("127.0.0.1:3000", admin).await;
+            let result = admin.login("127.0.0.1:3000").await;
             set_wait.update(|w| *w = false);
             if let Ok(res) = result {
                 if res.status == "1" {
