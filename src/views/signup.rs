@@ -53,8 +53,8 @@ pub fn Signup(cx: Scope) -> impl IntoView {
                     <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
                         <Form method="GET" action="">
                             <Stack orientation=StackOrientation::Vertical spacing=Size::Em(1.2)>
-                                <Input get=name set=set_name label="Email address"/>
-                                <Input ty=InputType::Password get=pass set=set_pass label="Password"/>
+                                <TextInput get=name set=set_name/>
+                                <PasswordInput get=pass set=set_pass/>
                                 <div class="mb-6 flex w-full items-center justify-between">
                                     <div class="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                                         <input class="c-input" type="checkbox" value="" id="exampleCheck3" checked/>

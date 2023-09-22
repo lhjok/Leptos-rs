@@ -1,6 +1,6 @@
+use gloo_net::Error;
 use serde::{ Deserialize, Serialize };
-use gloo_net::http::{ Request, Response };
-use serde::de::DeserializeOwned;
+use gloo_net::http::Request;
 
 #[derive(Serialize, Deserialize)]
 pub struct AdminLogin {
@@ -30,24 +30,10 @@ pub struct AdminLoginRes {
     pub message: String
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct Error {
-    pub message: String
-}
-
 impl AdminLogin {
     pub async fn login(&self, path: & str) -> Result<AdminLoginRes, Error> {
         let url = format!("{}/admin/login", path);
         let response = Request::post(&url).json(self)?.send().await?;
-        into_json(response).await
-    }
-}
-
-async fn into_json<T>(response: Response) -> Result<T, Error>
-where T: DeserializeOwned {
-    if response.ok() {
-        Ok(response.json().await?)
-    } else {
-        Err(response.json::<Error>().await?.into())
+        response.json().await
     }
 }

@@ -34,16 +34,18 @@ pub fn Login(cx: Scope) -> impl IntoView {
     let (name, set_name) = create_signal(cx, "".to_owned());
     let (pass, set_pass) = create_signal(cx, "".to_owned());
     let (wait, set_wait) = create_signal(cx, false);
-    let action = create_action(cx, move |(name, pass)| {
-        let admin = AdminLogin { name, pass };
+    let action = create_action(cx, move |(name, pass): &(String, String)| {
+        let username = name.to_string();
+        let password = pass.to_string();
+        let admin = AdminLogin { username, password };
         async move {
             set_wait.update(|w| *w = true);
-            let result = admin.login("127.0.0.1:3000").await;
+            let result = admin.login("http://127.0.0.1:3000").await;
             set_wait.update(|w| *w = false);
             if let Ok(res) = result {
                 if res.status == "1" {
                     let navigate = use_navigate(cx);
-                    navigate("/admin", Default::default());
+                    let _ = navigate("/admin", Default::default());
                 }
             }
         }
@@ -78,8 +80,8 @@ pub fn Login(cx: Scope) -> impl IntoView {
                     <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
                         <form on:submit=|event| event.prevent_default()>
                             <Stack orientation=StackOrientation::Vertical spacing=Size::Em(1.2)>
-                                <Input get=name set=set_name label="Email address"/>
-                                <Input ty=InputType::Password get=pass set=set_pass label="Password"/>
+                                <TextInput get=name set=set_name/>
+                                <PasswordInput get=pass set=set_pass/>
                                 <div class="mb-6 flex w-full items-center justify-between">
                                     <div class="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                                         <input class="c-input" type="checkbox" value="" id="exampleCheck3" checked/>
@@ -93,7 +95,7 @@ pub fn Login(cx: Scope) -> impl IntoView {
 
                             <button data-te-ripple-init data-te-ripple-color="light"
                                 class="inline-block w-full items-center justify-center btn-secondary"
-                                prop:disabled=move |_| button_disabled.get()
+                                prop:disabled=move || button_disabled.get()
                                 on:click=move |_| dispatch()>"登录"
                             </button>
 
