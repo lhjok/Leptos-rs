@@ -5,8 +5,9 @@ use wasm_bindgen::prelude::*;
 use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
 use gloo_utils::document;
+use gloo_storage::{ LocalStorage, Storage };
 use leptonic::prelude::*;
-use crate::api::AdminLogin;
+use crate::api::{ AdminLogin, UserName };
 
 #[wasm_bindgen(module="/node_modules\
 /tw-elements/dist/js/tw-elements.es.min.js")]
@@ -37,15 +38,23 @@ pub fn Login(cx: Scope) -> impl IntoView {
     let action = create_action(cx, move |(name, pass): &(String, String)| {
         let username = name.to_string();
         let password = pass.to_string();
+        let local_storage = UserName { username: username.clone() };
         let admin = AdminLogin { username, password };
         async move {
             set_wait.update(|w| *w = true);
             let result = admin.login("http://127.0.0.1:3000").await;
             set_wait.update(|w| *w = false);
-            if let Ok(res) = result {
-                if res.status == "1" {
-                    let navigate = use_navigate(cx);
-                    let _ = navigate("/admin", Default::default());
+            match result {
+                Ok(res) => {
+                    if res.status == "1" {
+                        LocalStorage::set("username", local_storage)
+                            .expect("LocalStorage::set");
+                        let navigate = use_navigate(cx);
+                        let _ = navigate("/admin/index", Default::default());
+                    }
+                }
+                Err(err) => {
+                    log!("登录失败(1): {}", err);
                 }
             }
         }
