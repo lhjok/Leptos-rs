@@ -6,12 +6,12 @@ module.exports = {
 		"./index.html",
 		"./src/**/*.html",
 		"./src/**/*.css",
-		"./node_modules/tw-elements/dist/js/**/*.js"
+		"./node_modules/tw-elements/dist/js/**/*.js",
+	],
+	plugins: [
+		require("tw-elements/dist/plugin")
 	],
 	darkMode: 'class',
-	theme: {},
 	variants: {},
-	plugins: [
-		require("tw-elements/dist/plugin.cjs")
-	],
+	theme: {},
 };

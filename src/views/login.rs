@@ -89,8 +89,8 @@ pub fn Login(cx: Scope) -> impl IntoView {
                     <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
                         <form on:submit=|event| event.prevent_default()>
                             <Stack orientation=StackOrientation::Vertical spacing=Size::Em(1.2)>
-                                <TextInput get=name set=set_name/>
-                                <PasswordInput get=pass set=set_pass/>
+                                <TextInput get=name set=set_name placeholder="UserName"/>
+                                <PasswordInput get=pass set=set_pass placeholder="Password"/>
                                 <div class="mb-6 flex w-full items-center justify-between">
                                     <div class="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                                         <input class="c-input" type="checkbox" value="" id="exampleCheck3" checked/>
