@@ -51,7 +51,7 @@ pub fn Signup(cx: Scope) -> impl IntoView {
                     </div>
 
                     <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
-                        <Form method="GET" action="">
+                        <form on:submit=|event| event.prevent_default()>
                             <Stack orientation=StackOrientation::Vertical spacing=Size::Em(1.2)>
                                 <TextInput get=name set=set_name placeholder="UserName"/>
                                 <PasswordInput get=pass set=set_pass placeholder="Password"/>
@@ -99,7 +99,7 @@ pub fn Signup(cx: Scope) -> impl IntoView {
                                     <li class="li-menu text-center"><A href="/admin">"后台管理"</A></li>
                                 </ul>
                             </div>
-                        </Form>
+                        </form>
                     </div>
                 </div>
             </div>

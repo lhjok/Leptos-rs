@@ -50,11 +50,11 @@ pub fn Login(cx: Scope) -> impl IntoView {
                         LocalStorage::set("username", local_storage)
                             .expect("LocalStorage::set");
                         let navigate = use_navigate(cx);
-                        let _ = navigate("/admin/index", Default::default());
+                        _ = navigate("/admin/index", Default::default());
                     }
                 }
                 Err(err) => {
-                    log!("登录失败(1): {}", err);
+                    log!("登录失败: {}", err);
                 }
             }
         }
@@ -83,7 +83,7 @@ pub fn Login(cx: Scope) -> impl IntoView {
             <div class="container h-full px-6 py-24 mx-auto max-w-7xl">
                 <div class="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
                     <div class="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
-                        <img src="./static/images/draw2.webp" class="w-full" alt="Phone image" />
+                        <img src="./static/images/draw2.webp" class="w-full" alt="login"/>
                     </div>
 
                     <div class="md:w-8/12 lg:ml-6 lg:w-5/12">
