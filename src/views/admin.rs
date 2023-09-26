@@ -3,7 +3,7 @@ use leptos::*;
 use leptos_router::*;
 use crate::api::{ AdminQuery, UserName, AdminInfoRes };
 use gloo_storage::{ LocalStorage, Storage };
-use super::LoginErr;
+use super::{ LoginErr, Loading };
 use super::pages::{
     Aside, Footer, Header, Content
 };
@@ -38,7 +38,7 @@ pub fn Admin(cx: Scope) -> impl IntoView {
             view! {cx, { move ||
                 match results.read(cx) {
                     None => view! {cx,
-                        <p>"Loading..."</p>
+                        <Loading/>
                     }.into_view(cx),
                     Some(result) => {
                         match result {

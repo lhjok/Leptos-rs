@@ -79,7 +79,7 @@ pub fn Login(cx: Scope) -> impl IntoView {
         }
     });
     view! { cx,
-        <section class="h-screen">
+        <section class="h-full">
             <div class="container h-full px-6 py-24 mx-auto max-w-7xl">
                 <div class="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
                     <div class="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">

@@ -19,18 +19,20 @@ fn App(cx: Scope) -> impl IntoView {
     view! { cx,
         <Root default_theme=LeptonicTheme::default()>
             <Router>
-                <Routes>
-                    <Route path="/" view=Home/>
-                    <Route path="/login" view=Login/>
-                    <Route path="/signup" view=Signup/>
-                    <Route path="/admin" view=Admin>
-                        <Route path="index" view=AdminIndex/>
-                        <Route path="/*any" view=AdminError/>
-                        <Route path="" view=|cx| view! { cx,
-                            <Redirect path="/admin/index"/> }/>
-                    </Route>
-                    <Route path="/*any" view=Error/>
-                </Routes>
+                <main class="h-screen">
+                    <Routes>
+                        <Route path="/" view=Home/>
+                        <Route path="/login" view=Login/>
+                        <Route path="/signup" view=Signup/>
+                        <Route path="/admin" view=Admin>
+                            <Route path="index" view=AdminIndex/>
+                            <Route path="/*any" view=AdminError/>
+                            <Route path="" view=|cx| view! { cx,
+                                <Redirect path="/admin/index"/> }/>
+                        </Route>
+                        <Route path="/*any" view=Error/>
+                    </Routes>
+                </main>
             </Router>
         </Root>
     }
