@@ -7,8 +7,8 @@ pub use self::index::AdminIndex;
 #[component]
 pub fn Content(cx: Scope, children: Children) -> impl IntoView {
     view! { cx,
-        <div id="content" class="h-4/5">
+        <section class="h-full pl-60 pt-14 pb-[378px]">
             { children(cx) }
-        </div>
+        </section>
     }
 }
