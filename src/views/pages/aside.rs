@@ -54,7 +54,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                                 0h.008v.015h-.008V9.75z"/>
                             </svg>
                         </span>
-                        <span>"Link 1"</span>
+                        <span>"首页"</span>
                     </a>
                 </li>
                 <li class="relative">
@@ -77,7 +77,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                                 10-1.06-1.06 3.75 3.75 0 01-5.304 0 .75.75 0 00-1.06 1.06 5.25 5.25 0 007.424 0z" clip-rule="evenodd"/>
                             </svg>
                         </span>
-                        <span>Category 1</span>
+                        <span>会员管理</span>
                         <span class="absolute right-0 ml-auto mr-[0.8rem] transition-transform duration-300 ease-linear \
                         motion-reduce:transition-none [&>svg]:text-gray-600 dark:[&>svg]:text-gray-300"
                             data-te-sidenav-rotate-icon-ref>
@@ -97,7 +97,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                             focus:outline-none active:bg-slate-50 active:text-inherit active:outline-none \
                             data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none \
                             motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 \
-                            dark:focus:bg-white/10 dark:active:bg-white/10" data-te-sidenav-link-ref >"Link 2"</a>
+                            dark:focus:bg-white/10 dark:active:bg-white/10" data-te-sidenav-link-ref >会员列表</a>
                         </li>
                         <li class="relative">
                             <a class="flex h-6 cursor-pointer items-center truncate rounded-[5px] py-4 pl-[3.4rem] pr-6 \
@@ -106,7 +106,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                             active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit \
                             data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 \
                             dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10"
-                                data-te-sidenav-link-ref>Link 3</a>
+                                data-te-sidenav-link-ref>提现管理</a>
                         </li>
                     </ul>
                 </li>
@@ -128,7 +128,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                                 10-1.06-1.06 3.75 3.75 0 01-5.304 0 .75.75 0 00-1.06 1.06 5.25 5.25 0 007.424 0z" clip-rule="evenodd"/>
                             </svg>
                         </span>
-                        <span>Category 2</span>
+                        <span>订单管理</span>
                         <span class="absolute right-0 ml-auto mr-[0.8rem] transition-transform duration-300 ease-linear \
                         motion-reduce:transition-none [&>svg]:text-gray-600 dark:[&>svg]:text-gray-300"
                             data-te-sidenav-rotate-icon-ref>
@@ -145,7 +145,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                             hover:text-inherit hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none \
                             active:bg-slate-50 active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit \
                             data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 \
-                            dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10" data-te-sidenav-link-ref>Link 4</a>
+                            dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10" data-te-sidenav-link-ref>订单列表</a>
                         </li>
                         <li class="relative">
                             <a class="flex h-6 cursor-pointer items-center truncate rounded-[5px] py-4 pl-[3.4rem] pr-6 text-[0.78rem] \
@@ -153,7 +153,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                             hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 \
                             active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit \
                             data-[te-sidenav-state-focus]:outline-none motion-reduce:transition-none dark:text-gray-300 \
-                            dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10" data-te-sidenav-link-ref>Link 5</a>
+                            dark:hover:bg-white/10 dark:focus:bg-white/10 dark:active:bg-white/10" data-te-sidenav-link-ref>订单查询</a>
                         </li>
                     </ul>
                 </li>
@@ -174,7 +174,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                                 375 0h.008v.015h-.008V9.75z"/>
                             </svg>
                         </span>
-                        <span>Link 6</span>
+                        <span>仪表板</span>
                     </a>
                 </li>
                 <li class="relative">
@@ -195,7 +195,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                                 10-1.06-1.06 3.75 3.75 0 01-5.304 0 .75.75 0 00-1.06 1.06 5.25 5.25 0 007.424 0z" clip-rule="evenodd"/>
                             </svg>
                         </span>
-                        <span>Category 3</span>
+                        <span>充值管理</span>
                         <span class="absolute right-0 ml-auto mr-[0.8rem] transition-transform duration-300 ease-linear \
                         motion-reduce:transition-none [&>svg]:text-gray-600 dark:[&>svg]:text-gray-300" data-te-sidenav-rotate-icon-ref>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
@@ -211,7 +211,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                             hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit \
                             active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none \
                             motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 \
-                            dark:active:bg-white/10" data-te-sidenav-link-ref>Link 7</a>
+                            dark:active:bg-white/10" data-te-sidenav-link-ref>平台充值</a>
                         </li>
                         <li class="relative">
                             <a class="flex h-6 cursor-pointer items-center truncate rounded-[5px] py-4 pl-[3.4rem] pr-6 text-[0.78rem] \
@@ -219,7 +219,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                             hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 active:text-inherit \
                             active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:outline-none \
                             motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 \
-                            dark:active:bg-white/10" data-te-sidenav-link-ref>Link 8</a>
+                            dark:active:bg-white/10" data-te-sidenav-link-ref>平台列表</a>
                         </li>
                     </ul>
                 </li>
@@ -240,7 +240,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                                 3.75 3.75 0 01-5.304 0 .75.75 0 00-1.06 1.06 5.25 5.25 0 007.424 0z" clip-rule="evenodd"/>
                             </svg>
                         </span>
-                        <span>Category 4</span>
+                        <span>财务管理</span>
                         <span class="absolute right-0 ml-auto mr-[0.8rem] transition-transform duration-300 ease-linear \
                         motion-reduce:transition-none [&>svg]:text-gray-600 dark:[&>svg]:text-gray-300" data-te-sidenav-rotate-icon-ref>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
@@ -256,7 +256,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                             hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 \
                             active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:\
                             outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 \
-                            dark:active:bg-white/10" data-te-sidenav-link-ref>Link 9</a>
+                            dark:active:bg-white/10" data-te-sidenav-link-ref>财务报表</a>
                         </li>
                         <li class="relative">
                             <a class="flex h-6 cursor-pointer items-center truncate rounded-[5px] py-4 pl-[3.4rem] pr-6 text-[0.78rem] \
@@ -264,7 +264,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                             hover:outline-none focus:bg-slate-50 focus:text-inherit focus:outline-none active:bg-slate-50 \
                             active:text-inherit active:outline-none data-[te-sidenav-state-active]:text-inherit data-[te-sidenav-state-focus]:\
                             outline-none motion-reduce:transition-none dark:text-gray-300 dark:hover:bg-white/10 dark:focus:bg-white/10 \
-                            dark:active:bg-white/10" data-te-sidenav-link-ref>Link 10</a>
+                            dark:active:bg-white/10" data-te-sidenav-link-ref>平台充值</a>
                         </li>
                     </ul>
                 </li>

@@ -30,6 +30,9 @@ fn init_dropdown(id: &str) -> Result<Vec<(WebSysElement, Dropdown)>, JsValue> {
     Ok(dropdowns)
 }
 
+// 服务器请求地址
+const URL: &'static str = "http://127.0.0.1:3000";
+
 #[component]
 pub fn Login(cx: Scope) -> impl IntoView {
     let (name, set_name) = create_signal(cx, "".to_owned());
@@ -42,7 +45,7 @@ pub fn Login(cx: Scope) -> impl IntoView {
         let admin = AdminLogin { username, password };
         async move {
             set_wait.update(|w| *w = true);
-            let result = admin.login("http://127.0.0.1:3000").await;
+            let result = admin.login(URL).await;
             set_wait.update(|w| *w = false);
             match result {
                 Ok(res) => {

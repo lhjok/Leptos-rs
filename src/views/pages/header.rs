@@ -5,6 +5,9 @@ use wasm_bindgen::prelude::*;
 use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
 use gloo_utils::document;
+use crate::api::{ AdminSingout, UserName, AdminQuery };
+use gloo_storage::{ LocalStorage, Storage };
+use leptos_router::use_navigate;
 
 #[wasm_bindgen(module="/node_modules\
 /tw-elements/dist/js/tw-elements.es.min.js")]
@@ -27,8 +30,51 @@ fn init_dropdown(id: &str) -> Result<Vec<(WebSysElement, Dropdown)>, JsValue> {
     Ok(dropdowns)
 }
 
+// 服务器请求地址
+const URL: &'static str = "http://127.0.0.1:3000";
+
 #[component]
 pub fn Header(cx: Scope) -> impl IntoView {
+    let (out, set_out) = create_signal(cx, None::<AdminSingout>);
+    // 点击事件调用退出函数
+    let _dispatch = move || {
+        match LocalStorage::get("username") {
+            Ok(user) => {
+                let local_storage: UserName = user;
+                let get_user = move || local_storage.clone();
+                let results = create_resource( cx,
+                    get_user, move |name: UserName| async move {
+                        let username = name.username.as_str();
+                        let user = vec![("username", username)];
+                        let admin = AdminQuery { user };
+                        let result = admin.signup(URL).await;
+                        match result {
+                            Ok(res) => {
+                                log!("退出成功");
+                                set_out.set(Some(res));
+                                LocalStorage::delete("username");
+                                let navigate = use_navigate(cx);
+                                _ = navigate("/login", Default::default());
+                            },
+                            Err(err) => {
+                                log!("服务器已断开: {}", err);
+                                LocalStorage::delete("username");
+                                let navigate = use_navigate(cx);
+                                _ = navigate("/login", Default::default());
+                            }
+                        }
+                        out.get()
+                    }
+                );
+                _ = results.read(cx);
+            },
+            Err(err) => {
+                log!("已退出登录: {}", err);
+                let navigate = use_navigate(cx);
+                _ = navigate("/login", Default::default());
+            }
+        }
+    };
     // 执行第三方JS初始化代码
     request_animation_frame( move || {
         let dropdowns = init_dropdown("[data-te-dropdown-toggle-ref]").unwrap();
@@ -52,7 +98,7 @@ pub fn Header(cx: Scope) -> impl IntoView {
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-7 w-7">
                             <path fill-rule="evenodd" d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 \
                             6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 \
-                            01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
+                            01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z" clip-rule="evenodd"/>
                         </svg>
                     </span>
                 </button>
@@ -61,26 +107,26 @@ pub fn Header(cx: Scope) -> impl IntoView {
                     id="navbarSupportedContent1" data-te-collapse-item>
                     <a class="mb-4 ml-2 mr-5 mt-3 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 \
                     dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0" href="#">
-                        <img src="https://tecdn.b-cdn.net/img/logo/te-transparent-noshadows.webp" style="height: 15px" alt="TE Logo" loading="lazy"/>
+                        <img src="https://tecdn.b-cdn.net/img/logo/te-transparent-noshadows.webp" style="height: 15px" alt="Logo" loading="lazy"/>
                     </a>
                     <ul class="list-style-none mr-auto flex flex-col pl-0 lg:flex-row" data-te-navbar-nav-ref>
                         <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
                             <a class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 \
                             disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 \
                             dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-zinc-400"
-                                href="#" data-te-nav-link-ref>Dashboard</a>
+                                href="#" data-te-nav-link-ref>千鸟科技</a>
                         </li>
                         <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
                             <a class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 \
                             disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 \
                             dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                                href="#" data-te-nav-link-ref>Team</a>
+                                href="#" data-te-nav-link-ref>团队</a>
                         </li>
                         <li class="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
                             <a class="text-neutral-500 transition duration-200 hover:text-neutral-700 hover:ease-in-out focus:text-neutral-700 \
                             disabled:text-black/30 motion-reduce:transition-none dark:text-neutral-200 dark:hover:text-neutral-300 \
                             dark:focus:text-neutral-300 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                                href="#" data-te-nav-link-ref>Projects</a>
+                                href="#" data-te-nav-link-ref>项目</a>
                         </li>
                     </ul>
                 </div>
@@ -113,7 +159,7 @@ pub fn Header(cx: Scope) -> impl IntoView {
                                 </svg>
                             </span>
                             <span class="absolute -mt-4 ml-2.5 rounded-full bg-danger px-[0.35em] py-[0.15em] text-[0.6rem] font-bold \
-                            leading-none text-white">1</span>
+                            leading-none text-white">0</span>
                         </a>
 
                         <ul class="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none \
@@ -123,19 +169,19 @@ pub fn Header(cx: Scope) -> impl IntoView {
                                 <a class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 \
                                 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none \
                                 disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                                    href="#" data-te-dropdown-item-ref>Action</a>
+                                    href="#" data-te-dropdown-item-ref>未读消息</a>
                             </li>
                             <li>
                                 <a class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 \
                                 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none \
                                 disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                                    href="#" data-te-dropdown-item-ref>Another action</a>
+                                    href="#" data-te-dropdown-item-ref>消息管理</a>
                             </li>
                             <li>
                                 <a class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 \
                                 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none \
                                 disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                                    href="#" data-te-dropdown-item-ref>Something else here</a>
+                                    href="#" data-te-dropdown-item-ref>发布工单</a>
                             </li>
                         </ul>
                     </div>
@@ -153,19 +199,19 @@ pub fn Header(cx: Scope) -> impl IntoView {
                                 <a class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 \
                                 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent \
                                 disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                                    href="#" data-te-dropdown-item-ref>Action</a>
+                                    href="#" data-te-dropdown-item-ref>系统设置</a>
                             </li>
                             <li>
                                 <a class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 \
                                 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent \
                                 disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                                    href="#" data-te-dropdown-item-ref>Another action</a>
+                                    href="#" data-te-dropdown-item-ref>会员信息</a>
                             </li>
                             <li>
                                 <a class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 \
                                 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent \
                                 disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-white/30"
-                                    href="#" data-te-dropdown-item-ref>Something else here</a>
+                                    href="#" data-te-dropdown-item-ref>退出登录</a>
                             </li>
                         </ul>
                     </div>

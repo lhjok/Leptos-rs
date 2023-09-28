@@ -32,6 +32,12 @@ pub struct AdminInfoRes {
     pub data: AdminInfo
 }
 
+#[derive(Clone, Serialize, Deserialize)]
+pub struct AdminSingout {
+    pub status:  String,
+    pub success: String
+}
+
 #[derive(Clone, PartialEq, Serialize, Deserialize)]
 pub struct UserName {
     pub username:  String
@@ -52,6 +58,11 @@ pub struct AdminQuery<'a> {
 impl AdminQuery<'_> {
     pub async fn info(self, path: &str) -> Result<AdminInfoRes, Error> {
         let url = format!("{}/admin/info", path);
+        let response = Request::get(&url).query(self.user).send().await?;
+        response.json().await
+    }
+    pub async fn signup(self, path: &str) -> Result<AdminSingout, Error> {
+        let url = format!("{}/admin/singout", path);
         let response = Request::get(&url).query(self.user).send().await?;
         response.json().await
     }
