@@ -1,7 +1,7 @@
 ## 前端构建（Rust + Leptos）
 #### 1、设置编译环境
 ```toml
-# 在 `.cargo` 目录下创建 `config.toml`
+# 在(.cargo)目录下创建(config.toml)
 [build]
 rustflags = ["--cfg=web_sys_unstable_apis"]
 ```
