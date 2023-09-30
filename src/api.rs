@@ -51,11 +51,11 @@ impl AdminLogin {
     }
 }
 
-pub struct AdminQuery<'a> {
-    pub user: Vec<(&'a str, &'a str)>
+pub struct AdminQuery {
+    pub user: Vec<(&'static str, String)>
 }
 
-impl AdminQuery<'_> {
+impl AdminQuery {
     pub async fn info(self, path: &str) -> Result<AdminInfoRes, Error> {
         let url = format!("{}/admin/info", path);
         let response = Request::get(&url).query(self.user).send().await?;

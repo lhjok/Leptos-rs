@@ -35,41 +35,35 @@ const URL: &'static str = "http://127.0.0.1:3000";
 
 #[component]
 pub fn Header(cx: Scope) -> impl IntoView {
-    let (out, set_out) = create_signal(cx, None::<AdminSingout>);
+    let (_out, set_out) = create_signal(cx, None::<AdminSingout>);
+    let action = create_action(cx, move |name: &UserName| {
+        let username = name.username.clone();
+        async move {
+            let user = vec![("username", username)];
+            let admin = AdminQuery { user };
+            let result = admin.signup(URL).await;
+            match result {
+                Ok(res) => {
+                    set_out.set(Some(res));
+                    LocalStorage::delete("username");
+                    let navigate = use_navigate(cx);
+                    _ = navigate("/login", Default::default());
+                },
+                Err(_) => {
+                    LocalStorage::delete("username");
+                    let navigate = use_navigate(cx);
+                    _ = navigate("/login", Default::default());
+                }
+            }
+        }
+    });
     // 点击事件调用退出函数
     let dispatch = move || {
         match LocalStorage::get("username") {
             Ok(user) => {
-                let local_storage: UserName = user;
-                let get_user = move || local_storage.clone();
-                let results = create_resource( cx,
-                    get_user, move |name: UserName| async move {
-                        let username = name.username.as_str();
-                        let user = vec![("username", username)];
-                        let admin = AdminQuery { user };
-                        let result = admin.signup(URL).await;
-                        match result {
-                            Ok(res) => {
-                                log!("退出成功");
-                                set_out.set(Some(res));
-                                LocalStorage::delete("username");
-                                let navigate = use_navigate(cx);
-                                _ = navigate("/login", Default::default());
-                            },
-                            Err(err) => {
-                                log!("服务器已断开: {}", err);
-                                LocalStorage::delete("username");
-                                let navigate = use_navigate(cx);
-                                _ = navigate("/login", Default::default());
-                            }
-                        }
-                        out.get()
-                    }
-                );
-                _ = results.read(cx);
+                action.dispatch(user);
             },
-            Err(err) => {
-                log!("已退出登录: {}", err);
+            Err(_) => {
                 let navigate = use_navigate(cx);
                 _ = navigate("/login", Default::default());
             }

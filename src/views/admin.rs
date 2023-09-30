@@ -18,8 +18,7 @@ pub fn Admin(cx: Scope) -> impl IntoView {
             let get_user = move || local_storage.clone();
             let results = create_resource(cx,
                 get_user, move |name: UserName| async move {
-                    let username = name.username.as_str();
-                    let user = vec![("username", username)];
+                    let user = vec![("username", name.username)];
                     let admin = AdminQuery { user };
                     let result = admin.info(URL).await;
                     match result {
