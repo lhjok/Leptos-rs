@@ -77,8 +77,8 @@ pub fn Footer(cx: Scope) -> impl IntoView {
                 </div>
             </div>
             <div class="mx-6 py-7 text-center md:text-left">
-                <div class="grid-1 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-                    <div class="">
+                <div class="flex flex-row space-x-4">
+                    <div class="basis-1/3">
                         <h5 class="my-3 flex items-center justify-center font-semibold uppercase md:justify-start">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mr-3 h-4 w-4">
                                 <path d="M12.378 1.602a.75.75 0 00-.756 0L3 6.632l9 5.25 9-5.25-8.622-5.03zM21.75 \
@@ -92,21 +92,21 @@ pub fn Footer(cx: Scope) -> impl IntoView {
                             主要从事软件销售、定制开发、软件服务和平台架构等一揽子服务，为客户提供可信的安全产品、技术服务和整体解决方案。"
                         </p>
                     </div>
-                    <div class="">
+                    <div class="basis-1/4">
                         <h5 class="my-3 flex justify-center font-semibold uppercase md:justify-start">热门项目</h5>
                         <p class="my-3"><a href="#!" class="text-neutral-600 dark:text-neutral-200">"(A)项目： (项目简介)"</a></p>
                         <p class="my-3"><a href="#!" class="text-neutral-600 dark:text-neutral-200">"(B)项目： (项目简介)"</a></p>
                         <p class="my-3"><a href="#!" class="text-neutral-600 dark:text-neutral-200">"(C)项目： (项目简介)"</a></p>
                         <p><a href="#!" class="text-neutral-600 dark:text-neutral-200">"(D)项目： (项目简介)"</a></p>
                     </div>
-                    <div class="">
+                    <div class="basis-1/4">
                         <h5 class="my-3 flex justify-center font-semibold uppercase md:justify-start">项目帮助</h5>
                         <p class="my-3"><a href="#!" class="text-neutral-600 dark:text-neutral-200">(A)项目常见问题</a></p>
                         <p class="my-3"><a href="#!" class="text-neutral-600 dark:text-neutral-200">(B)项目常见问题</a></p>
                         <p class="my-3"><a href="#!" class="text-neutral-600 dark:text-neutral-200">(C)项目常见问题</a></p>
                         <p><a href="#!" class="text-neutral-600 dark:text-neutral-200">(D)项目常见问题</a></p>
                     </div>
-                    <div class="">
+                    <div class="basis-1/4">
                         <h5 class="my-3 flex justify-center font-semibold uppercase md:justify-start">联系方式</h5>
                         <p class="my-3 flex items-center justify-center md:justify-start">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mr-3 h-5 w-5">
