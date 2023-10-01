@@ -40,6 +40,7 @@ pub fn Home(cx: Scope) -> impl IntoView {
     let listener = Rc::clone(&swiper);
     let start = Rc::clone(&swiper);
     on_cleanup(cx, move || { listener.detach_events(); });
+    request_animation_frame(move || { start.init(); });
     view! { cx,
         <div id="home">
             <header class="absolute w-full h-16 z-50 bg-white/20 shadow-2xl">
@@ -70,7 +71,6 @@ pub fn Home(cx: Scope) -> impl IntoView {
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
             </div>
-            { request_animation_frame( move || { start.init(); } ) }
         </div>
     }
 }
