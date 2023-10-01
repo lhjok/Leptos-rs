@@ -47,7 +47,7 @@ pub fn Signup(cx: Scope) -> impl IntoView {
             <div class="container h-full px-6 py-24 mx-auto max-w-7xl">
                 <div class="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
                     <div class="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
-                        <img src="./static/images/draw2.webp" class="w-full" alt="Phone image" />
+                        <img src="/static/images/draw2.webp" class="w-full" alt="Phone image" />
                     </div>
 
                     <div class="md:w-8/12 lg:ml-6 lg:w-5/12">

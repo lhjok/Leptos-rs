@@ -45,8 +45,8 @@ pub fn Home(cx: Scope) -> impl IntoView {
         <div id="home">
             <header class="absolute w-full h-16 z-50 bg-white/20 shadow-2xl">
                 <div class="flex flex-row">
-                    <div class="basis-72 ml-6">
-                        <img alt="Logo" src="./static/images/logo.png"/>
+                    <div class="basis-52 ml-6">
+                        <img alt="Logo" src="/static/images/logo.png"/>
                     </div>
                     <div class="basis-60 ml-auto py-3">
                         <A href="signup">
@@ -61,10 +61,10 @@ pub fn Home(cx: Scope) -> impl IntoView {
             <div class="swiper w-full">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img alt="Poster01" src="./static/images/poster01.jpg"/>
+                        <img alt="Poster01" src="/static/images/poster01.jpg"/>
                     </div>
                     <div class="swiper-slide">
-                        <img alt="Poster02" src="./static/images/poster02.jpg"/>
+                        <img alt="Poster02" src="/static/images/poster02.jpg"/>
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
