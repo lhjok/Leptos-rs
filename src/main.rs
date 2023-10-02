@@ -22,7 +22,10 @@ fn App(cx: Scope) -> impl IntoView {
                 <main class="h-screen">
                     <Routes>
                         <Route path="/" view=Home/>
-                        <Route path="/login" view=Login/>
+                        <Route path="/logins" view=|cx|
+                            view! { cx, <Login role="admin"/> }/>
+                        <Route path="/login" view=|cx|
+                            view! { cx, <Login role="user"/> }/>
                         <Route path="/signup" view=Signup/>
                         <Route path="/admin" view=Admin>
                             <Route path="index" view=AdminIndex/>

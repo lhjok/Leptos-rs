@@ -7,7 +7,7 @@ use gloo::events::EventListener;
 use gloo_utils::document;
 use gloo_storage::{ LocalStorage, Storage };
 use leptonic::prelude::*;
-use crate::api::{ AdminLogin, UserName };
+use crate::api::{ User, UserName };
 
 #[wasm_bindgen(module="/node_modules\
 /tw-elements/dist/js/tw-elements.es.min.js")]
@@ -34,7 +34,7 @@ fn init_dropdown(id: &str) -> Result<Vec<(WebSysElement, Dropdown)>, JsValue> {
 const URL: &'static str = "http://127.0.0.1:3000";
 
 #[component]
-pub fn Login(cx: Scope) -> impl IntoView {
+pub fn Login(cx: Scope, role: &'static str) -> impl IntoView {
     let (name, set_name) = create_signal(cx, "".to_owned());
     let (pass, set_pass) = create_signal(cx, "".to_owned());
     let (wait, set_wait) = create_signal(cx, false);
@@ -42,10 +42,10 @@ pub fn Login(cx: Scope) -> impl IntoView {
         let username = name.to_string();
         let password = pass.to_string();
         let local_storage = UserName { username: username.clone() };
-        let admin = AdminLogin { username, password };
+        let user = User { username, password };
         async move {
             set_wait.update(|w| *w = true);
-            let result = admin.login(URL).await;
+            let result = user.login(URL, role).await;
             set_wait.update(|w| *w = false);
             match result {
                 Ok(res) => {
@@ -53,7 +53,7 @@ pub fn Login(cx: Scope) -> impl IntoView {
                         LocalStorage::set("username", local_storage)
                             .expect("LocalStorage::set");
                         let navigate = use_navigate(cx);
-                        _ = navigate("/admin/index", Default::default());
+                        _ = navigate(&format!("/{}/index", role), Default::default());
                     }
                 }
                 Err(err) => {
@@ -116,9 +116,9 @@ pub fn Login(cx: Scope) -> impl IntoView {
                                 <p class="mx-4 mb-0 text-center font-semibold dark:text-neutral-200">"OR"</p>
                             </div>
 
-                            <A href="/signup">
+                            <A href="/">
                                 <button class="mb-5 flex w-full items-center justify-center btn-secondary">
-                                    "注册用户"
+                                    "返回首页"
                                 </button>
                             </A>
 
@@ -136,8 +136,8 @@ pub fn Login(cx: Scope) -> impl IntoView {
                                 </button>
                                 <ul class="ul-menu w-full [&[data-te-dropdown-show]]:block"
                                     aria-labelledby="dropdownMenuButton1" data-te-dropdown-menu-ref>
-                                    <li class="li-menu text-center"><A href="/">"返回首页"</A></li>
-                                    <li class="li-menu text-center"><A href="/admin">"后台管理"</A></li>
+                                    <li class="li-menu text-center"><A href="/signup">"注册用户"</A></li>
+                                    <li class="li-menu text-center"><A href="/admin">"管理后台"</A></li>
                                 </ul>
                             </div>
                         </form>

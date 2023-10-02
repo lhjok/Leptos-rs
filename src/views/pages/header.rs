@@ -5,7 +5,7 @@ use wasm_bindgen::prelude::*;
 use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
 use gloo_utils::document;
-use crate::api::{ AdminSingout, UserName, AdminQuery };
+use crate::api::{ Singout, UserName, GetQuery };
 use gloo_storage::{ LocalStorage, Storage };
 use leptos_router::use_navigate;
 
@@ -35,24 +35,24 @@ const URL: &'static str = "http://127.0.0.1:3000";
 
 #[component]
 pub fn Header(cx: Scope) -> impl IntoView {
-    let (_out, set_out) = create_signal(cx, None::<AdminSingout>);
+    let (_out, set_out) = create_signal(cx, None::<Singout>);
     let action = create_action(cx, move |name: &UserName| {
         let username = name.username.clone();
         async move {
             let user = vec![("username", username)];
-            let admin = AdminQuery { user };
-            let result = admin.signup(URL).await;
+            let admin = GetQuery { user };
+            let result = admin.signup(URL, "admin").await;
             match result {
                 Ok(res) => {
                     set_out.set(Some(res));
                     LocalStorage::delete("username");
                     let navigate = use_navigate(cx);
-                    _ = navigate("/login", Default::default());
+                    _ = navigate("/logins", Default::default());
                 },
                 Err(_) => {
                     LocalStorage::delete("username");
                     let navigate = use_navigate(cx);
-                    _ = navigate("/login", Default::default());
+                    _ = navigate("/logins", Default::default());
                 }
             }
         }
@@ -65,7 +65,7 @@ pub fn Header(cx: Scope) -> impl IntoView {
             },
             Err(_) => {
                 let navigate = use_navigate(cx);
-                _ = navigate("/login", Default::default());
+                _ = navigate("/logins", Default::default());
             }
         }
     };

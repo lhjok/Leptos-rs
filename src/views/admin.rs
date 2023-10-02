@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
 use leptos::*;
 use leptos_router::*;
-use crate::api::{ AdminQuery, UserName };
+use crate::api::{ GetQuery, UserName };
 use gloo_storage::{ LocalStorage, Storage };
 use super::{ Loading, pages::{
     Aside, Footer, Header, Content,
@@ -18,8 +18,8 @@ pub fn Admin(cx: Scope) -> impl IntoView {
                 let results = create_resource(cx,
                     get_user, move |name: UserName| async move {
                         let user = vec![("username", name.username)];
-                        let admin = AdminQuery { user };
-                        let result = admin.info(URL).await;
+                        let get = GetQuery { user };
+                        let result = get.admin_info(URL).await;
                         match result {
                             Ok(res) => Some(res),
                             Err(_) => {
@@ -37,7 +37,7 @@ pub fn Admin(cx: Scope) -> impl IntoView {
                         Some(result) => {
                             match result {
                                 None => view! { cx,
-                                    <Redirect path="/login"/>
+                                    <Redirect path="/logins"/>
                                 }.into_view(cx),
                                 Some(_data) => {
                                     view! { cx,
@@ -56,7 +56,7 @@ pub fn Admin(cx: Scope) -> impl IntoView {
             },
             Err(_) => {
                 view! { cx,
-                    <Redirect path="/login"/>
+                    <Redirect path="/logins"/>
                 }.into_view(cx)
             }
         }

@@ -67,7 +67,7 @@ pub fn Signup(cx: Scope) -> impl IntoView {
                             </Stack>
 
                             <button type="submit" data-te-ripple-init data-te-ripple-color="light"
-                                class="inline-block w-full items-center justify-center btn-secondary">"注册"
+                                class="inline-block w-full items-center justify-center btn-secondary">"注册用户"
                             </button>
 
                             <div class="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t \
@@ -77,7 +77,7 @@ pub fn Signup(cx: Scope) -> impl IntoView {
 
                             <A href="/login">
                                 <button class="mb-5 flex w-full items-center justify-center btn-secondary">
-                                    "登录"
+                                    "用户登录"
                                 </button>
                             </A>
 
@@ -96,7 +96,7 @@ pub fn Signup(cx: Scope) -> impl IntoView {
                                 <ul class="ul-menu w-full [&[data-te-dropdown-show]]:block"
                                     aria-labelledby="dropdownMenuButton1" data-te-dropdown-menu-ref>
                                     <li class="li-menu text-center"><A href="/">"返回首页"</A></li>
-                                    <li class="li-menu text-center"><A href="/admin">"后台管理"</A></li>
+                                    <li class="li-menu text-center"><A href="/admin">"管理后台"</A></li>
                                 </ul>
                             </div>
                         </form>
