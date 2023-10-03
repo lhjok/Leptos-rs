@@ -33,6 +33,23 @@ pub struct AdminInfoRes {
 }
 
 #[derive(Clone, Serialize, Deserialize)]
+pub struct UserInfo {
+    pub id: i32,
+    pub mail: String,
+    pub username: String,
+    pub password: String,
+    pub phone: String,
+    pub avatar: String,
+    pub status: i32
+}
+
+#[derive(Clone, Serialize, Deserialize)]
+pub struct UserInfoRes {
+    pub status:  String,
+    pub data: AdminInfo
+}
+
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Singout {
     pub status:  String,
     pub success: String
@@ -58,6 +75,11 @@ pub struct GetQuery {
 impl GetQuery {
     pub async fn admin_info(self, path: &str) -> Result<AdminInfoRes, Error> {
         let url = format!("{}/admin/info", path);
+        let response = Request::get(&url).query(self.user).send().await?;
+        response.json().await
+    }
+    pub async fn user_info(self, path: &str) -> Result<UserInfoRes, Error> {
+        let url = format!("{}/user/info", path);
         let response = Request::get(&url).query(self.user).send().await?;
         response.json().await
     }
