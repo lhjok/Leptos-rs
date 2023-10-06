@@ -9,7 +9,7 @@ pub struct User {
 }
 
 #[derive(Clone, Serialize, Deserialize)]
-pub struct LoginRes {
+pub struct UniteRes {
     pub status: String,
     pub success: String,
     pub message: String
@@ -17,6 +17,7 @@ pub struct LoginRes {
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct AdminInfo {
+    #[serde(skip_serializing)]
     pub id: i32,
     pub mail: String,
     pub username: String,
@@ -28,12 +29,13 @@ pub struct AdminInfo {
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct AdminInfoRes {
-    pub status:  String,
+    pub status: String,
     pub data: AdminInfo
 }
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct UserInfo {
+    #[serde(skip_serializing)]
     pub id: i32,
     pub mail: String,
     pub username: String,
@@ -45,24 +47,68 @@ pub struct UserInfo {
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct UserInfoRes {
-    pub status:  String,
-    pub data: AdminInfo
+    pub status: String,
+    pub data: UserInfo
 }
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Singout {
-    pub status:  String,
+    pub status: String,
     pub success: String
 }
 
 #[derive(Clone, PartialEq, Serialize, Deserialize)]
 pub struct UserName {
-    pub username:  String
+    pub username: String
 }
 
 impl User {
-    pub async fn login(&self, path: &str, name: &str) -> Result<LoginRes, Error> {
+    pub async fn login(&self, path: &str, name: &str) -> Result<UniteRes, Error> {
         let url = format!("{}/{}/login", path, name);
+        let response = Request::post(&url).json(self)?.send().await?;
+        response.json().await
+    }
+}
+
+impl Default for AdminInfo {
+    fn default() -> AdminInfo {
+        AdminInfo {
+            id: 0,
+            mail: String::from(""),
+            username: String::from(""),
+            password: String::from(""),
+            phone: String::from(""),
+            avatar: String::from("static/admin.png"),
+            status: 1
+        }
+    }
+}
+
+impl AdminInfo {
+    pub async fn signin(&self, path: &str) -> Result<UniteRes, Error> {
+        let url = format!("{}/admin/signin", path);
+        let response = Request::post(&url).json(self)?.send().await?;
+        response.json().await
+    }
+}
+
+impl Default for UserInfo {
+    fn default() -> UserInfo {
+        UserInfo {
+            id: 0,
+            mail: String::from(""),
+            username: String::from(""),
+            password: String::from(""),
+            phone: String::from(""),
+            avatar: String::from("static/user.png"),
+            status: 1
+        }
+    }
+}
+
+impl UserInfo {
+    pub async fn signin(&self, path: &str) -> Result<UniteRes, Error> {
+        let url = format!("{}/user/signin", path);
         let response = Request::post(&url).json(self)?.send().await?;
         response.json().await
     }

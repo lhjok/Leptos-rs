@@ -54,8 +54,10 @@ pub fn Login(cx: Scope, role: &'static str) -> impl IntoView {
                             .expect("LocalStorage::set");
                         let navigate = use_navigate(cx);
                         _ = navigate(&format!("/{}/index", role), Default::default());
+                    } else {
+                        log!("登录失败: {}", res.message);
                     }
-                }
+                },
                 Err(err) => {
                     log!("登录失败: {}", err);
                 }
