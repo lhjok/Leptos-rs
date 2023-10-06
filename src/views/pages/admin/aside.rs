@@ -177,7 +177,7 @@ pub fn Aside(cx: Scope) -> impl IntoView {
                                     375 0h.008v.015h-.008V9.75z"/>
                                 </svg>
                             </span>
-                            <span>注册管理</span>
+                            <span>添加子帐号</span>
                         </span>
                     </A>
                 </li>

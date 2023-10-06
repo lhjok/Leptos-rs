@@ -36,11 +36,11 @@ pub fn AdminSignup(cx: Scope) -> impl IntoView {
                             let navigate = use_navigate(cx);
                             _ = navigate("/login", Default::default());
                         } else {
-                            log!("注册失败: {}", res.message);
+                            log!("添加子帐号失败: {}", res.message);
                         }
                     },
                     Err(err) => {
-                        log!("注册失败: {}", err);
+                        log!("添加子帐号失败: {}", err);
                     }
                 }
             }
@@ -55,7 +55,7 @@ pub fn AdminSignup(cx: Scope) -> impl IntoView {
             email.get().is_empty() || phone.get().is_empty()
     });
     view! { cx,
-        <div class="mt-16 md:w-8/12 lg:ml-20 lg:w-5/12">
+        <div class="mt-20 md:w-8/12 lg:ml-24 lg:w-4/12">
             <form on:submit=|event| event.prevent_default()>
                 <Stack orientation=StackOrientation::Vertical spacing=Size::Em(1.2)>
                     <TextInput get=name set=set_name placeholder="name *"/>
@@ -63,23 +63,11 @@ pub fn AdminSignup(cx: Scope) -> impl IntoView {
                     <TextInput get=email set=set_email placeholder="email"/>
                     <TextInput get=phone set=set_phone placeholder="phone *"/>
                 </Stack>
-
                 <button type="submit" data-te-ripple-init data-te-ripple-color="light"
-                    class="inline-block mt-5 w-full items-center justify-center btn-secondary"
+                    class="inline-block mt-8 w-full items-center justify-center btn-secondary"
                     prop:disabled=move || button_disabled.get()
-                    on:click=move |_| dispatch()>"注册"
+                    on:click=move |_| dispatch()>"添加子帐号"
                 </button>
-
-                <div class="my-3 flex items-center before:mt-0.5 before:flex-1 before:border-t \
-                    before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-                    <p class="mx-4 my-0 text-center font-semibold dark:text-neutral-200">"OR"</p>
-                </div>
-
-                <A href="/login">
-                    <button class="flex w-full items-center justify-center btn-secondary">
-                        "用户登录"
-                    </button>
-                </A>
             </form>
         </div>
     }
