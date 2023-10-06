@@ -1,8 +1,11 @@
 #![allow(non_snake_case)]
 pub mod index;
+pub mod signin;
+
 use leptos::*;
 // use leptos_router::*;
 pub use self::index::AdminIndex;
+pub use self::signin::AdminSignup;
 
 #[component]
 pub fn Content(cx: Scope, children: Children) -> impl IntoView {

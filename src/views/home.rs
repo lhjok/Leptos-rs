@@ -49,11 +49,11 @@ pub fn Home(cx: Scope) -> impl IntoView {
                         <img alt="Logo" src="/static/images/logo.png"/>
                     </div>
                     <div class="basis-60 ml-auto py-3">
-                        <A href="/login">
-                            <button class="btn-primary mx-4">"用户登录"</button>
+                        <A href="/signup">
+                            <button class="btn-primary mx-4">"注册用户"</button>
                         </A>
-                        <A href="/logins">
-                            <button class="btn-primary">"管理登录"</button>
+                        <A href="/login">
+                            <button class="btn-primary">"用户登录"</button>
                         </A>
                     </div>
                 </div>

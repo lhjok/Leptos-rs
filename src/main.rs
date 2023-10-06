@@ -5,7 +5,7 @@ use leptos::*;
 use leptos_router::*;
 use console_error_panic_hook::set_once;
 use views::{ Login, Signup, Home, Error };
-use views::pages::admin::content::AdminIndex;
+use views::pages::admin::content::{ AdminIndex, AdminSignup };
 use views::pages::admin::{ Admin, AdminError };
 use views::pages::user::content::UserIndex;
 use views::pages::user::{ User, UserError };
@@ -37,6 +37,7 @@ fn App(cx: Scope) -> impl IntoView {
                         </Route>
                         <Route path="/admin" view=Admin>
                             <Route path="index" view=AdminIndex/>
+                            <Route path="signup" view=AdminSignup/>
                             <Route path="/*any" view=AdminError/>
                             <Route path="" view=|cx| view! { cx,
                                 <Redirect path="/admin/index"/> }/>

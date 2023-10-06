@@ -19,7 +19,7 @@ pub fn Signup(cx: Scope) -> impl IntoView {
     let action = create_action( cx,
         move |(name, pass, email, phone):
             &(String, String, String, String)| {
-        // 将结构反序列成Json格式
+        // 将结构序列成Json格式
         let user = UserInfo {
             username: name.to_string(), password: pass.to_string(),
             mail: email.to_string(), phone: phone.to_string(),
