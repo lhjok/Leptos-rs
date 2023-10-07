@@ -40,7 +40,7 @@ pub fn Header(cx: Scope) -> impl IntoView {
         async move {
             let user = vec![("username", username)];
             let admin = GetQuery { user };
-            let result = admin.signup(URL, "admin").await;
+            let result = admin.singout(URL, "admin").await;
             match result {
                 Ok(res) => {
                     set_out.set(Some(res));

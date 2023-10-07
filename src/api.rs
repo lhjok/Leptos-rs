@@ -129,7 +129,7 @@ impl GetQuery {
         let response = Request::get(&url).query(self.user).send().await?;
         response.json().await
     }
-    pub async fn signup(self, path: &str, name: &str) -> Result<Singout, Error> {
+    pub async fn singout(self, path: &str, name: &str) -> Result<Singout, Error> {
         let url = format!("{}/{}/singout", path, name);
         let response = Request::get(&url).query(self.user).send().await?;
         response.json().await
