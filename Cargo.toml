@@ -7,24 +7,27 @@ edition = "2021"
 js-sys = "0.3.64"
 gloo-utils = "0.2.0"
 wasm-bindgen = "0.2.87"
-leptonic = "0.2.0"
 console_error_panic_hook = "0.1.7"
 gloo = "0.10.0"
 gloo-net = "0.4.0"
 gloo-storage = "0.3.0"
-console_log = "1.0.0"
-log = "0.4.20"
+
+[dependencies.leptonic]
+git = "https://github.com/lhjok/leptonic"
+
+[build-dependencies.leptonic-theme]
+git = "https://github.com/lhjok/leptonic"
 
 [dependencies.serde]
 version="1.0.188"
 features = ["derive"]
 
 [dependencies.leptos]
-version = "0.4.10"
+version = "0.5.1"
 features = ["csr"]
 
 [dependencies.leptos_router]
-version = "0.4.10"
+version = "0.5.1"
 features = ["csr"]
 
 [dependencies.web-sys]
@@ -39,5 +42,4 @@ features = [
 ]
 
 [build-dependencies]
-leptonic-theme = "0.2.0"
 leptos-tiptap-build = "^0.2.3"

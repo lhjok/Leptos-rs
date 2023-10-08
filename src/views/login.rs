@@ -1,6 +1,7 @@
 #![allow(non_snake_case)]
 use leptos::*;
 use leptos_router::*;
+use leptos::logging::log;
 use wasm_bindgen::prelude::*;
 use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
@@ -34,11 +35,11 @@ fn init_dropdown(id: &str) -> Result<Vec<(WebSysElement, Dropdown)>, JsValue> {
 const URL: &'static str = "http://127.0.0.1:3000";
 
 #[component]
-pub fn Login(cx: Scope, role: &'static str) -> impl IntoView {
-    let (name, set_name) = create_signal(cx, "".to_owned());
-    let (pass, set_pass) = create_signal(cx, "".to_owned());
-    let (wait, set_wait) = create_signal(cx, false);
-    let action = create_action(cx, move |(name, pass): &(String, String)| {
+pub fn Login(role: &'static str) -> impl IntoView {
+    let (name, set_name) = create_signal("".to_owned());
+    let (pass, set_pass) = create_signal("".to_owned());
+    let (wait, set_wait) = create_signal(false);
+    let action = create_action(move |(name, pass): &(String, String)| {
         let username = name.to_string();
         let password = pass.to_string();
         let local_storage = UserName { username: username.clone() };
@@ -52,7 +53,7 @@ pub fn Login(cx: Scope, role: &'static str) -> impl IntoView {
                     if res.status == "1" {
                         LocalStorage::set("username", local_storage)
                             .expect("LocalStorage::set");
-                        let navigate = use_navigate(cx);
+                        let navigate = use_navigate();
                         _ = navigate(&format!("/{}/index", role), Default::default());
                     } else {
                         log!("登录失败: {}", res.message);
@@ -65,11 +66,11 @@ pub fn Login(cx: Scope, role: &'static str) -> impl IntoView {
         }
     });
     // 按下后按钮为不可激活状态
-    let disabled = Signal::derive(cx, move || wait.get());
+    let disabled = Signal::derive(move || wait.get());
     // 执行按钮按下后，提交表单函数。
     let dispatch = move || action.dispatch((name.get(), pass.get()));
     // 执行按钮按下后，按钮点击状态函数。
-    let button_disabled = Signal::derive(cx, move || {
+    let button_disabled = Signal::derive(move || {
         disabled.get() || pass.get().is_empty() || name.get().is_empty()
     });
     // 执行第三方JS初始化代码
@@ -83,7 +84,7 @@ pub fn Login(cx: Scope, role: &'static str) -> impl IntoView {
             event.forget();
         }
     });
-    view! { cx,
+    view! {
         <section class="h-full">
             <div class="container h-full px-6 py-24 mx-auto max-w-7xl">
                 <div class="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">

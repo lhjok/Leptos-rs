@@ -4,8 +4,8 @@ use crate::views::Loading;
 // use leptos_router::*;
 
 #[component]
-pub fn UserIndex(cx: Scope) -> impl IntoView {
-    view! { cx,
+pub fn UserIndex() -> impl IntoView {
+    view! {
         <div class="h-full">
             <Loading/>
         </div>

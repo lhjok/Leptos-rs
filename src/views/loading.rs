@@ -2,8 +2,8 @@
 use leptos::*;
 
 #[component]
-pub fn Loading(cx: Scope) -> impl IntoView {
-    view! { cx,
+pub fn Loading() -> impl IntoView {
+    view! {
         <div class="flex h-full w-full justify-center">
             <div class="h-14 w-20 self-center">
                 <div class="flex w-full pl-3">

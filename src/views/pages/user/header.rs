@@ -33,9 +33,9 @@ fn init_dropdown(id: &str) -> Result<Vec<(WebSysElement, Dropdown)>, JsValue> {
 const URL: &'static str = "http://127.0.0.1:3000";
 
 #[component]
-pub fn Header(cx: Scope) -> impl IntoView {
-    let (_out, set_out) = create_signal(cx, None::<Singout>);
-    let action = create_action(cx, move |name: &UserName| {
+pub fn Header() -> impl IntoView {
+    let (_out, set_out) = create_signal(None::<Singout>);
+    let action = create_action(move |name: &UserName| {
         let username = name.username.clone();
         async move {
             let user = vec![("username", username)];
@@ -45,12 +45,12 @@ pub fn Header(cx: Scope) -> impl IntoView {
                 Ok(res) => {
                     set_out.set(Some(res));
                     LocalStorage::delete("username");
-                    let navigate = use_navigate(cx);
+                    let navigate = use_navigate();
                     _ = navigate("/login", Default::default());
                 },
                 Err(_) => {
                     LocalStorage::delete("username");
-                    let navigate = use_navigate(cx);
+                    let navigate = use_navigate();
                     _ = navigate("/login", Default::default());
                 }
             }
@@ -63,7 +63,7 @@ pub fn Header(cx: Scope) -> impl IntoView {
                 action.dispatch(user);
             },
             Err(_) => {
-                let navigate = use_navigate(cx);
+                let navigate = use_navigate();
                 _ = navigate("/login", Default::default());
             }
         }
@@ -79,7 +79,7 @@ pub fn Header(cx: Scope) -> impl IntoView {
             event.forget();
         }
     });
-    view! { cx,
+    view! {
         <nav class="fixed z-[9999] flex-no-wrap flex w-full items-center justify-between bg-[#FBFBFB] \
         py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
             <div class="flex w-full flex-wrap items-center justify-between px-3">

@@ -21,12 +21,12 @@ fn init_sidenav(id: &str) -> Result<Sidenav, JsValue> {
 }
 
 #[component]
-pub fn Aside(cx: Scope) -> impl IntoView {
+pub fn Aside() -> impl IntoView {
     // 执行第三方JS初始化代码
     request_animation_frame( move || {
         _= init_sidenav("sidenav").unwrap();
     });
-    view! { cx,
+    view! {
         <aside id="sidenav"
             class="fixed left-0 top-0 z-[999] h-screen w-60 -translate-x-full overflow-hidden \
             bg-white shadow-[0_4px_12px_0_rgba(0,0,0,0.07),_0_2px_4px_rgba(0,0,0,0.05)] \

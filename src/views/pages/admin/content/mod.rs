@@ -8,10 +8,10 @@ pub use self::index::AdminIndex;
 pub use self::signin::AdminSignup;
 
 #[component]
-pub fn Content(cx: Scope, children: Children) -> impl IntoView {
-    view! { cx,
+pub fn Content(children: Children) -> impl IntoView {
+    view! {
         <section class="h-full pl-60 pt-14 pb-[378px]">
-            { children(cx) }
+            { children() }
         </section>
     }
 }

@@ -3,8 +3,8 @@ use leptos::*;
 // use leptos_router::*;
 
 #[component]
-pub fn Footer(cx: Scope) -> impl IntoView {
-    view! { cx,
+pub fn Footer() -> impl IntoView {
+    view! {
         <footer id="footer" class="absolute w-full z-[888] left-0 bottom-0 bg-neutral-100 text-center text-neutral-600 \
             dark:bg-neutral-600 dark:text-neutral-200 lg:text-left">
             <div class="flex items-center justify-center border-b-2 border-neutral-200 px-6 py-4 \

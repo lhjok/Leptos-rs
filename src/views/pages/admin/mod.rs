@@ -19,13 +19,13 @@ use gloo_storage::{ LocalStorage, Storage };
 // 服务器请求地址
 const URL: &'static str = "http://127.0.0.1:3000";
 #[component]
-pub fn Admin(cx: Scope) -> impl IntoView {
-    view! { cx, {
+pub fn Admin() -> impl IntoView {
+    view! { {
         match LocalStorage::get("username") {
             Ok(user) => {
                 let storage: UserName = user;
                 let get_user = move || storage.clone();
-                let results = create_resource(cx,
+                let results = create_resource(
                     get_user, move |name: UserName| async move {
                         let user = vec![("username", name.username)];
                         let get = GetQuery { user };
@@ -39,35 +39,35 @@ pub fn Admin(cx: Scope) -> impl IntoView {
                         }
                     }
                 );
-                view! { cx, { move ||
-                    match results.read(cx) {
-                        None => view! { cx,
+                view! { { move ||
+                    match results.get() {
+                        None => view! {
                             <Loading/>
-                        }.into_view(cx),
+                        }.into_view(),
                         Some(result) => {
                             match result {
-                                None => view! { cx,
+                                None => view! {
                                     <Redirect path="/logins"/>
-                                }.into_view(cx),
+                                }.into_view(),
                                 Some(_data) => {
-                                    view! { cx,
+                                    view! {
                                         <Header/>
                                         <Aside/>
                                         <Content>
                                             <Outlet/>
                                         </Content>
                                         <Footer/>
-                                    }.into_view(cx)
+                                    }.into_view()
                                 }
                             }
                         }
                     }
-                }}.into_view(cx)
+                }}.into_view()
             },
             Err(_) => {
-                view! { cx,
+                view! {
                     <Redirect path="/logins"/>
-                }.into_view(cx)
+                }.into_view()
             }
         }
     }}

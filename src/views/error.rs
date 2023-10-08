@@ -3,8 +3,8 @@ use leptos::*;
 use leptos_router::*;
 
 #[component]
-pub fn Error(cx: Scope) -> impl IntoView {
-    view! { cx,
+pub fn Error() -> impl IntoView {
+    view! {
         <div id="error">
             <h3>"404 Error"</h3>
             <p>"您访问的页面已经不存在了..."</p>

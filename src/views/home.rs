@@ -22,7 +22,7 @@ extern {
 }
 
 #[component]
-pub fn Home(cx: Scope) -> impl IntoView {
+pub fn Home() -> impl IntoView {
     // 解析Json格式到JsValue对象
     let init = JSON::parse(r#"{
         "init": false,
@@ -39,9 +39,9 @@ pub fn Home(cx: Scope) -> impl IntoView {
     let swiper = Rc::new(Swiper::new(".swiper", &init));
     let listener = Rc::clone(&swiper);
     let start = Rc::clone(&swiper);
-    on_cleanup(cx, move || { listener.detach_events(); });
+    on_cleanup(move || { listener.detach_events(); });
     request_animation_frame(move || { start.init(); });
-    view! { cx,
+    view! {
         <div id="home">
             <header class="absolute w-full h-16 z-50 bg-white/20 shadow-2xl">
                 <div class="flex flex-row">

@@ -3,8 +3,8 @@ use leptos::*;
 // use leptos_router::*;
 
 #[component]
-pub fn UserError(cx: Scope) -> impl IntoView {
-    view! { cx,
+pub fn UserError() -> impl IntoView {
+    view! {
         <div id="user-error">
             <h1>"User Error"</h1>
         </div>
