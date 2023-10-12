@@ -5,7 +5,7 @@ use wasm_bindgen::prelude::*;
 use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
 use gloo_utils::document;
-use crate::api::{ Singout, UserName, GetQuery };
+use crate::api::{ Singout, UserName, GetQuery, UserInfoRes };
 use gloo_storage::{ LocalStorage, Storage };
 
 #[wasm_bindgen(module="/node_modules\
@@ -33,7 +33,7 @@ fn init_dropdown(id: &str) -> Result<Vec<(WebSysElement, Dropdown)>, JsValue> {
 const URL: &'static str = "http://127.0.0.1:3000";
 
 #[component]
-pub fn Header() -> impl IntoView {
+pub fn Header(info: UserInfoRes) -> impl IntoView {
     let (_out, set_out) = create_signal(None::<Singout>);
     let action = create_action(move |name: &UserName| {
         let username = name.username.clone();
@@ -182,7 +182,7 @@ pub fn Header() -> impl IntoView {
                     <div class="relative" data-te-dropdown-ref data-te-dropdown-alignment="end">
                         <a class="hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none"
                             href="#" id="dropdownMenuButton2" role="button" data-te-dropdown-toggle-ref aria-expanded="false">
-                            <img src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg" class="rounded-full"
+                            <img src=format!("{}{}", URL, info.data.avatar) class="rounded-full"
                                 style="height: 25px; width: 25px" alt="" loading="lazy"/>
                         </a>
                         <ul class="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white \

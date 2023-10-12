@@ -49,9 +49,9 @@ pub fn Admin() -> impl IntoView {
                                 None => view! {
                                     <Redirect path="/logins"/>
                                 }.into_view(),
-                                Some(_data) => {
+                                Some(data) => {
                                     view! {
-                                        <Header/>
+                                        <Header info=data.clone()/>
                                         <Aside/>
                                         <Content>
                                             <Outlet/>
