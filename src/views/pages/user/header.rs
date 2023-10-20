@@ -5,7 +5,7 @@ use wasm_bindgen::prelude::*;
 use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
 use gloo_utils::document;
-use crate::api::{ Singout, UserName, GetQuery, UserInfoRes };
+use crate::api::{ Singout, UserToken, AuthRuest, UserInfoRes };
 use gloo_storage::{ LocalStorage, Storage };
 
 #[wasm_bindgen(module="/node_modules\
@@ -35,21 +35,21 @@ const URL: &'static str = "http://127.0.0.1:3000";
 #[component]
 pub fn Header(info: UserInfoRes) -> impl IntoView {
     let (_out, set_out) = create_signal(None::<Singout>);
-    let action = create_action(move |name: &UserName| {
-        let username = name.username.clone();
+    let action = create_action(move |name: &UserToken| {
+        let token = name.token.clone();
+        let types = name.types.clone();
         async move {
-            let user = vec![("username", username)];
-            let user = GetQuery { user };
+            let user = AuthRuest { token, types };
             let result = user.singout(URL, "user").await;
             match result {
                 Ok(res) => {
                     set_out.set(Some(res));
-                    LocalStorage::delete("username");
+                    LocalStorage::delete("token");
                     let navigate = use_navigate();
                     _ = navigate("/login", Default::default());
                 },
                 Err(_) => {
-                    LocalStorage::delete("username");
+                    LocalStorage::delete("token");
                     let navigate = use_navigate();
                     _ = navigate("/login", Default::default());
                 }
@@ -58,7 +58,7 @@ pub fn Header(info: UserInfoRes) -> impl IntoView {
     });
     // 点击事件调用退出函数
     let dispatch = move || {
-        match LocalStorage::get("username") {
+        match LocalStorage::get("token") {
             Ok(user) => {
                 action.dispatch(user);
             },

@@ -8,7 +8,7 @@ use gloo::events::EventListener;
 use gloo_utils::document;
 use gloo_storage::{ LocalStorage, Storage };
 use leptonic::prelude::*;
-use crate::api::{ User, UserName };
+use crate::api::{ User, UserToken };
 
 #[wasm_bindgen(module="/node_modules\
 /tw-elements/dist/js/tw-elements.es.min.js")]
@@ -42,7 +42,6 @@ pub fn Login(role: &'static str) -> impl IntoView {
     let action = create_action(move |(name, pass): &(String, String)| {
         let username = name.to_string();
         let password = pass.to_string();
-        let local_storage = UserName { username: username.clone() };
         let user = User { username, password };
         async move {
             set_wait.update(|w| *w = true);
@@ -51,7 +50,10 @@ pub fn Login(role: &'static str) -> impl IntoView {
             match result {
                 Ok(res) => {
                     if res.status == "1" {
-                        LocalStorage::set("username", local_storage)
+                        let token = res.data;
+                        let types = res.message;
+                        let user_token = UserToken { token, types };
+                        LocalStorage::set("token", user_token)
                             .expect("LocalStorage::set");
                         let navigate = use_navigate();
                         _ = navigate(&format!("/{}/index", role), Default::default());
@@ -60,7 +62,7 @@ pub fn Login(role: &'static str) -> impl IntoView {
                     }
                 },
                 Err(err) => {
-                    log!("登录失败: {}", err);
+                    log!("数据解析失败: {}", err);
                 }
             }
         }

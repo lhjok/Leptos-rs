@@ -14,26 +14,27 @@ pub use self::error::AdminError;
 use leptos::*;
 use leptos_router::*;
 use crate::views::Loading;
-use crate::api::{ GetQuery, UserName };
+use crate::api::{ AuthRuest, UserToken };
 use gloo_storage::{ LocalStorage, Storage };
 // 服务器请求地址
 const URL: &'static str = "http://127.0.0.1:3000";
 #[component]
 pub fn Admin() -> impl IntoView {
     view! { {
-        match LocalStorage::get("username") {
+        match LocalStorage::get("token") {
             Ok(user) => {
-                let storage: UserName = user;
+                let storage: UserToken = user;
                 let get_user = move || storage.clone();
                 let results = create_resource(
-                    get_user, move |name: UserName| async move {
-                        let user = vec![("username", name.username)];
-                        let get = GetQuery { user };
+                    get_user, move |name: UserToken| async move {
+                        let token = name.token;
+                        let types = name.types;
+                        let get = AuthRuest { token, types };
                         let result = get.admin_info(URL).await;
                         match result {
                             Ok(res) => Some(res),
                             Err(_) => {
-                                LocalStorage::delete("username");
+                                LocalStorage::delete("token");
                                 None
                             }
                         }

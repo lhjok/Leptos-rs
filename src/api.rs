@@ -58,12 +58,20 @@ pub struct Singout {
 }
 
 #[derive(Clone, PartialEq, Serialize, Deserialize)]
-pub struct UserName {
-    pub username: String
+pub struct UserToken {
+    pub token: String,
+    pub types: String
+}
+
+#[derive(Clone, Serialize, Deserialize)]
+pub struct AuthBody {
+    pub data: String,
+    pub status: String,
+    pub message: String
 }
 
 impl User {
-    pub async fn login(&self, path: &str, name: &str) -> Result<UniteRes, Error> {
+    pub async fn login(&self, path: &str, name: &str) -> Result<AuthBody, Error> {
         let url = format!("{}/{}/login", path, name);
         let response = Request::post(&url).json(self)?.send().await?;
         response.json().await
@@ -114,24 +122,31 @@ impl UserInfo {
     }
 }
 
-pub struct GetQuery {
-    pub user: Vec<(&'static str, String)>
+pub struct AuthRuest {
+    pub token: String,
+    pub types: String
 }
 
-impl GetQuery {
+impl AuthRuest {
     pub async fn admin_info(self, path: &str) -> Result<AdminInfoRes, Error> {
         let url = format!("{}/admin/info", path);
-        let response = Request::get(&url).query(self.user).send().await?;
+        let response = Request::get(&url)
+            .header("Authorization", &format!("{} {}", self.types, self.token))
+            .send().await?;
         response.json().await
     }
     pub async fn user_info(self, path: &str) -> Result<UserInfoRes, Error> {
         let url = format!("{}/user/info", path);
-        let response = Request::get(&url).query(self.user).send().await?;
+        let response = Request::get(&url)
+            .header("Authorization", &format!("{} {}", self.types, self.token))
+            .send().await?;
         response.json().await
     }
     pub async fn singout(self, path: &str, name: &str) -> Result<Singout, Error> {
         let url = format!("{}/{}/singout", path, name);
-        let response = Request::get(&url).query(self.user).send().await?;
+        let response = Request::get(&url)
+            .header("Authorization", &format!("{} {}", self.types, self.token))
+            .send().await?;
         response.json().await
     }
 }
