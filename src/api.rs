@@ -9,9 +9,9 @@ pub struct User {
 }
 
 #[derive(Clone, Serialize, Deserialize)]
-pub struct UniteRes {
+pub struct NormRes {
     pub status: String,
-    pub success: String,
+    pub data: String,
     pub message: String
 }
 
@@ -51,27 +51,8 @@ pub struct UserInfoRes {
     pub data: UserInfo
 }
 
-#[derive(Clone, Serialize, Deserialize)]
-pub struct Singout {
-    pub status: String,
-    pub success: String
-}
-
-#[derive(Clone, PartialEq, Serialize, Deserialize)]
-pub struct UserToken {
-    pub token: String,
-    pub types: String
-}
-
-#[derive(Clone, Serialize, Deserialize)]
-pub struct AuthBody {
-    pub data: String,
-    pub status: String,
-    pub message: String
-}
-
 impl User {
-    pub async fn login(&self, path: &str, name: &str) -> Result<AuthBody, Error> {
+    pub async fn login(&self, path: &str, name: &str) -> Result<NormRes, Error> {
         let url = format!("{}/{}/login", path, name);
         let response = Request::post(&url).json(self)?.send().await?;
         response.json().await
@@ -93,7 +74,7 @@ impl Default for AdminInfo {
 }
 
 impl AdminInfo {
-    pub async fn signin(&self, path: &str) -> Result<UniteRes, Error> {
+    pub async fn signin(&self, path: &str) -> Result<NormRes, Error> {
         let url = format!("{}/admin/signin", path);
         let response = Request::post(&url).json(self)?.send().await?;
         response.json().await
@@ -115,38 +96,31 @@ impl Default for UserInfo {
 }
 
 impl UserInfo {
-    pub async fn signin(&self, path: &str) -> Result<UniteRes, Error> {
+    pub async fn signin(&self, path: &str) -> Result<NormRes, Error> {
         let url = format!("{}/user/signin", path);
         let response = Request::post(&url).json(self)?.send().await?;
         response.json().await
     }
 }
 
-pub struct AuthRuest {
-    pub token: String,
-    pub types: String
-}
+#[derive(Clone, PartialEq)]
+pub struct OnlyCookie;
 
-impl AuthRuest {
+impl OnlyCookie {
+    pub fn new() -> Self { OnlyCookie{} }
     pub async fn admin_info(self, path: &str) -> Result<AdminInfoRes, Error> {
         let url = format!("{}/admin/info", path);
-        let response = Request::get(&url)
-            .header("Authorization", &format!("{} {}", self.types, self.token))
-            .send().await?;
+        let response = Request::get(&url).send().await?;
         response.json().await
     }
     pub async fn user_info(self, path: &str) -> Result<UserInfoRes, Error> {
         let url = format!("{}/user/info", path);
-        let response = Request::get(&url)
-            .header("Authorization", &format!("{} {}", self.types, self.token))
-            .send().await?;
+        let response = Request::get(&url).send().await?;
         response.json().await
     }
-    pub async fn singout(self, path: &str, name: &str) -> Result<Singout, Error> {
+    pub async fn singout(self, path: &str, name: &str) -> Result<NormRes, Error> {
         let url = format!("{}/{}/singout", path, name);
-        let response = Request::get(&url)
-            .header("Authorization", &format!("{} {}", self.types, self.token))
-            .send().await?;
+        let response = Request::get(&url).send().await?;
         response.json().await
     }
 }

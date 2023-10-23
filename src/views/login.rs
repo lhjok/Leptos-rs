@@ -6,9 +6,8 @@ use wasm_bindgen::prelude::*;
 use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
 use gloo_utils::document;
-use gloo_storage::{ LocalStorage, Storage };
 use leptonic::prelude::*;
-use crate::api::{ User, UserToken };
+use crate::api::User;
 
 #[wasm_bindgen(module="/node_modules\
 /tw-elements/dist/js/tw-elements.es.min.js")]
@@ -50,11 +49,6 @@ pub fn Login(role: &'static str) -> impl IntoView {
             match result {
                 Ok(res) => {
                     if res.status == "1" {
-                        let token = res.data;
-                        let types = res.message;
-                        let user_token = UserToken { token, types };
-                        LocalStorage::set("token", user_token)
-                            .expect("LocalStorage::set");
                         let navigate = use_navigate();
                         _ = navigate(&format!("/{}/index", role), Default::default());
                     } else {
