@@ -35,7 +35,7 @@ pub fn Signup() -> impl IntoView {
                 Ok(res) => {
                     if res.status == "1" {
                         let navigate = use_navigate();
-                        _ = navigate("/login", Default::default());
+                        navigate("/login", Default::default());
                     } else {
                         log!("注册失败: {}", res.message);
                     }

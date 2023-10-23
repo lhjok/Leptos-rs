@@ -14,44 +14,59 @@ pub use self::error::UserError;
 use leptos::*;
 use leptos_router::*;
 use crate::views::Loading;
-use crate::api::OnlyCookie;
+use crate::api::{ 
+    NormRes, OnlyCookie
+};
+use gloo_storage::{
+    LocalStorage, Storage
+};
 // 服务器请求地址
 const URL: &'static str = "http://127.0.0.1:3000";
 #[component]
 pub fn User() -> impl IntoView {
     view! {{
-        let get_info = move || OnlyCookie::new();
-        let results = create_resource(get_info,
-            move |get: OnlyCookie| async move {
-                match get.user_info(URL).await {
-                    Ok(res) => Some(res),
-                    Err(_) => None
-                }
-            }
-        );
-        view! { { move ||
-            match results.get() {
-                None => view! {
-                    <Loading/>
-                }.into_view(),
-                Some(result) => {
-                    match result {
-                        None => view! {
-                            <Redirect path="/login"/>
-                        }.into_view(),
-                        Some(data) => {
-                            view! {
-                                <Header info=data.clone()/>
-                                <Aside/>
-                                <Content>
-                                    <Outlet/>
-                                </Content>
-                                <Footer/>
-                            }.into_view()
+        match LocalStorage::get("login") {
+            Ok(user) => {
+                let _norm: NormRes = user;
+                let get_info = move || OnlyCookie::new();
+                let results = create_resource(get_info,
+                    move |get: OnlyCookie| async move {
+                        match get.user_info(URL).await {
+                            Ok(res) => Some(res),
+                            Err(_) => None
                         }
                     }
-                }
+                );
+                view! { { move ||
+                    match results.get() {
+                        None => view! {
+                            <Loading/>
+                        }.into_view(),
+                        Some(result) => {
+                            match result {
+                                None => view! {
+                                    <Redirect path="/login"/>
+                                }.into_view(),
+                                Some(data) => {
+                                    view! {
+                                        <Header info=data.clone()/>
+                                        <Aside/>
+                                        <Content>
+                                            <Outlet/>
+                                        </Content>
+                                        <Footer/>
+                                    }.into_view()
+                                }
+                            }
+                        }
+                    }
+                }}.into_view()
+            },
+            Err(_) => {
+                view! {
+                    <Redirect path="/login"/>
+                }.into_view()
             }
-        }}.into_view()
+        }
     }}
 }

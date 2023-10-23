@@ -6,6 +6,7 @@ use wasm_bindgen::prelude::*;
 use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
 use gloo_utils::document;
+use gloo_storage::{ LocalStorage, Storage };
 use leptonic::prelude::*;
 use crate::api::User;
 
@@ -49,8 +50,10 @@ pub fn Login(role: &'static str) -> impl IntoView {
             match result {
                 Ok(res) => {
                     if res.status == "1" {
+                        LocalStorage::set("login", res)
+                            .expect("LocalStorage::set");
                         let navigate = use_navigate();
-                        _ = navigate(&format!("/{}/index", role), Default::default());
+                        navigate(&format!("/{}/index", role), Default::default());
                     } else {
                         log!("登录失败: {}", res.message);
                     }

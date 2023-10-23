@@ -5,6 +5,7 @@ use wasm_bindgen::prelude::*;
 use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
 use gloo_utils::document;
+use gloo_storage::{ LocalStorage, Storage };
 use crate::api::{ NormRes, OnlyCookie, UserInfoRes };
 
 #[wasm_bindgen(module="/node_modules\
@@ -41,18 +42,31 @@ pub fn Header(info: UserInfoRes) -> impl IntoView {
             Ok(res) => {
                 set_out.set(Some(res));
                 let navigate = use_navigate();
-                _ = navigate("/login", Default::default());
+                LocalStorage::delete("login");
+                navigate("/login", Default::default());
             },
             Err(_) => {
                 let navigate = use_navigate();
-                _ = navigate("/login", Default::default());
+                LocalStorage::delete("login");
+                navigate("/login", Default::default());
             }
         }
     });
     // 点击事件调用退出函数
-    let dispatch = move || action.dispatch("");
+    let dispatch = move || {
+        match LocalStorage::get("login") {
+            Ok(user) => {
+                let norm: NormRes = user;
+                action.dispatch(norm.data);
+            },
+            Err(_) => {
+                let navigate = use_navigate();
+                navigate("/logins", Default::default());
+            }
+        }
+    };
     // 执行第三方JS初始化代码
-    request_animation_frame( move || {
+    request_animation_frame(move || {
         let dropdowns = init_dropdown("[data-te-dropdown-toggle-ref]").unwrap();
         for (element, dropdown) in dropdowns.into_iter() {
             let event = EventListener::new(&element, "click", move |_event| {
