@@ -1,3 +1,6 @@
+[build]
+public_url = "/static"
+
 [watch]
 ignore = [
     "./static/leptonic",
