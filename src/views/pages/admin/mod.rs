@@ -33,7 +33,10 @@ pub fn Admin() -> impl IntoView {
                     move |get: OnlyCookie| async move {
                         match get.admin_info(URL).await {
                             Ok(res) => Some(res),
-                            Err(_) => None
+                            Err(_) => {
+                                LocalStorage::delete("login");
+                                None
+                            }
                         }
                     }
                 );

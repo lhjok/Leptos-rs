@@ -5,7 +5,7 @@ pub fn main() {
     println!("cargo:rerun-if-changed=Cargo.lock");
 
     let root_dir: std::path::PathBuf = std::env::var("CARGO_MANIFEST_DIR").unwrap().into();
-    let generated_dir = root_dir.join("generated");
+    let generated_dir = root_dir.join("static");
     let js_dir = generated_dir.join("scripts");
 
     leptonic_theme::generate(generated_dir.join("leptonic"));

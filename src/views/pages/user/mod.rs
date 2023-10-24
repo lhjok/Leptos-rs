@@ -33,7 +33,10 @@ pub fn User() -> impl IntoView {
                     move |get: OnlyCookie| async move {
                         match get.user_info(URL).await {
                             Ok(res) => Some(res),
-                            Err(_) => None
+                            Err(_) => {
+                                LocalStorage::delete("login");
+                                None
+                            }
                         }
                     }
                 );
