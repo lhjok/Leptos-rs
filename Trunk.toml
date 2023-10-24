@@ -1,5 +1,5 @@
 [build]
-public_url = "/static"
+public_url = "/static/"
 
 [watch]
 ignore = [
