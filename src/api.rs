@@ -1,6 +1,7 @@
 use gloo_net::Error;
 use serde::{ Deserialize, Serialize };
 use gloo_net::http::Request;
+use web_sys::RequestCredentials;
 
 #[derive(Serialize, Deserialize)]
 pub struct User {
@@ -51,9 +52,12 @@ pub struct UserInfoRes {
     pub data: UserInfo
 }
 
+// 服务器请求地址
+const URL: &'static str = "https://127.0.0.1:3000";
+
 impl User {
-    pub async fn login(&self, path: &str, name: &str) -> Result<NormRes, Error> {
-        let url = format!("{}/{}/login", path, name);
+    pub async fn login(&self, name: &str) -> Result<NormRes, Error> {
+        let url = format!("{}/{}/login", URL, name);
         let response = Request::post(&url).json(self)?.send().await?;
         response.json().await
     }
@@ -74,8 +78,8 @@ impl Default for AdminInfo {
 }
 
 impl AdminInfo {
-    pub async fn signin(&self, path: &str) -> Result<NormRes, Error> {
-        let url = format!("{}/admin/signin", path);
+    pub async fn signin(&self) -> Result<NormRes, Error> {
+        let url = format!("{}/admin/signin", URL);
         let response = Request::post(&url).json(self)?.send().await?;
         response.json().await
     }
@@ -96,8 +100,8 @@ impl Default for UserInfo {
 }
 
 impl UserInfo {
-    pub async fn signin(&self, path: &str) -> Result<NormRes, Error> {
-        let url = format!("{}/user/signin", path);
+    pub async fn signin(&self) -> Result<NormRes, Error> {
+        let url = format!("{}/user/signin", URL);
         let response = Request::post(&url).json(self)?.send().await?;
         response.json().await
     }
@@ -108,19 +112,22 @@ pub struct OnlyCookie;
 
 impl OnlyCookie {
     pub fn new() -> Self { OnlyCookie{} }
-    pub async fn admin_info(self, path: &str) -> Result<AdminInfoRes, Error> {
-        let url = format!("{}/admin/info", path);
-        let response = Request::get(&url).send().await?;
+    pub async fn admin_info(self) -> Result<AdminInfoRes, Error> {
+        let url = format!("{}/admin/info", URL);
+        let response = Request::get(&url)
+            .credentials(RequestCredentials::Include).send().await?;
         response.json().await
     }
-    pub async fn user_info(self, path: &str) -> Result<UserInfoRes, Error> {
-        let url = format!("{}/user/info", path);
-        let response = Request::get(&url).send().await?;
+    pub async fn user_info(self) -> Result<UserInfoRes, Error> {
+        let url = format!("{}/user/info", URL);
+        let response = Request::get(&url)
+            .credentials(RequestCredentials::Include).send().await?;
         response.json().await
     }
-    pub async fn singout(self, path: &str, name: &str) -> Result<NormRes, Error> {
-        let url = format!("{}/{}/singout", path, name);
-        let response = Request::get(&url).send().await?;
+    pub async fn singout(self, name: &str) -> Result<NormRes, Error> {
+        let url = format!("{}/{}/singout", URL, name);
+        let response = Request::get(&url)
+            .credentials(RequestCredentials::Include).send().await?;
         response.json().await
     }
 }

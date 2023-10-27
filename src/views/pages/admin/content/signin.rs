@@ -5,9 +5,6 @@ use leptos::logging::log;
 use leptonic::prelude::*;
 use crate::api::AdminInfo;
 
-// 服务器请求地址
-const URL: &'static str = "http://127.0.0.1:3000";
-
 #[component]
 pub fn AdminSignup() -> impl IntoView {
     // 填写表单的信号
@@ -29,7 +26,7 @@ pub fn AdminSignup() -> impl IntoView {
             // 返回异步闭包
             async move {
                 set_wait.update(|w| *w = true);
-                let result = user.signin(URL).await;
+                let result = user.signin().await;
                 set_wait.update(|w| *w = false);
                 match result {
                     Ok(res) => {

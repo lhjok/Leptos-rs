@@ -29,15 +29,12 @@ fn init_dropdown(id: &str) -> Result<Vec<(WebSysElement, Dropdown)>, JsValue> {
     Ok(dropdowns)
 }
 
-// 服务器请求地址
-const URL: &'static str = "http://127.0.0.1:3000";
-
 #[component]
 pub fn Header(info: UserInfoRes) -> impl IntoView {
     let (_out, set_out) = create_signal(None::<NormRes>);
     let action = create_action(move |_| async move {
         let user = OnlyCookie::new();
-        let result = user.singout(URL, "user").await;
+        let result = user.singout("user").await;
         match result {
             Ok(res) => {
                 set_out.set(Some(res));
@@ -179,7 +176,7 @@ pub fn Header(info: UserInfoRes) -> impl IntoView {
                     <div class="relative" data-te-dropdown-ref data-te-dropdown-alignment="end">
                         <a class="hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none"
                             href="#" id="dropdownMenuButton2" role="button" data-te-dropdown-toggle-ref aria-expanded="false">
-                            <img src=format!("{}{}", URL, info.data.avatar) class="rounded-full"
+                            <img src=info.data.avatar class="rounded-full"
                                 style="height: 25px; width: 25px" alt="" loading="lazy"/>
                         </a>
                         <ul class="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white \

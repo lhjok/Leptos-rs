@@ -20,8 +20,7 @@ use crate::api::{
 use gloo_storage::{
     LocalStorage, Storage
 };
-// 服务器请求地址
-const URL: &'static str = "http://127.0.0.1:3000";
+
 #[component]
 pub fn User() -> impl IntoView {
     view! {{
@@ -31,7 +30,7 @@ pub fn User() -> impl IntoView {
                 let get_info = move || OnlyCookie::new();
                 let results = create_resource(get_info,
                     move |get: OnlyCookie| async move {
-                        match get.user_info(URL).await {
+                        match get.user_info().await {
                             Ok(res) => Some(res),
                             Err(_) => {
                                 LocalStorage::delete("login");
