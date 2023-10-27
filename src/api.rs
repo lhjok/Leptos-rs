@@ -1,7 +1,6 @@
 use gloo_net::Error;
 use serde::{ Deserialize, Serialize };
 use gloo_net::http::Request;
-use web_sys::RequestCredentials;
 
 #[derive(Serialize, Deserialize)]
 pub struct User {
@@ -114,20 +113,17 @@ impl OnlyCookie {
     pub fn new() -> Self { OnlyCookie{} }
     pub async fn admin_info(self) -> Result<AdminInfoRes, Error> {
         let url = format!("{}/admin/info", URL);
-        let response = Request::get(&url)
-            .credentials(RequestCredentials::Include).send().await?;
+        let response = Request::get(&url).send().await?;
         response.json().await
     }
     pub async fn user_info(self) -> Result<UserInfoRes, Error> {
         let url = format!("{}/user/info", URL);
-        let response = Request::get(&url)
-            .credentials(RequestCredentials::Include).send().await?;
+        let response = Request::get(&url).send().await?;
         response.json().await
     }
     pub async fn singout(self, name: &str) -> Result<NormRes, Error> {
         let url = format!("{}/{}/singout", URL, name);
-        let response = Request::get(&url)
-            .credentials(RequestCredentials::Include).send().await?;
+        let response = Request::get(&url).send().await?;
         response.json().await
     }
 }
