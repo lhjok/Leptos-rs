@@ -1,4 +1,5 @@
 use gloo_net::Error;
+use web_sys::FormData;
 use serde::{ Deserialize, Serialize };
 use gloo_net::http::Request;
 
@@ -30,7 +31,8 @@ pub struct AdminInfo {
 #[derive(Clone, Serialize, Deserialize)]
 pub struct AdminInfoRes {
     pub status: String,
-    pub data: AdminInfo
+    pub data: AdminInfo,
+    pub message: String
 }
 
 #[derive(Clone, Serialize, Deserialize)]
@@ -48,7 +50,8 @@ pub struct UserInfo {
 #[derive(Clone, Serialize, Deserialize)]
 pub struct UserInfoRes {
     pub status: String,
-    pub data: UserInfo
+    pub data: UserInfo,
+    pub message: String
 }
 
 // 服务器请求地址
@@ -102,6 +105,24 @@ impl UserInfo {
     pub async fn signin(&self) -> Result<NormRes, Error> {
         let url = format!("{}/user/signin", URL);
         let response = Request::post(&url).json(self)?.send().await?;
+        response.json().await
+    }
+}
+
+#[derive(Clone)]
+pub struct UploadImg {
+    pub data: FormData
+}
+
+impl UploadImg {
+    pub fn from(data: FormData) -> Self {
+        UploadImg{data}
+    }
+    pub async fn upload(&self, name: &str) -> Result<NormRes, Error> {
+        let url = format!("{}/{}/upload", URL, name);
+        let response = Request::post(&url)
+            .header("Content-Type", "multipart/form-data")
+            .body(&self.data)?.send().await?;
         response.json().await
     }
 }
