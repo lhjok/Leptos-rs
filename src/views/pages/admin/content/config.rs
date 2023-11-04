@@ -14,9 +14,8 @@ pub fn AdminConfig() -> impl IntoView {
     let file_load = move |_| {
         if let Some(files) = file_input.get().and_then(|f|f.files()) {
             let file = files.get(0).unwrap();
-            let blob = file.slice().unwrap();
             let form_data = FormData::new().unwrap();
-            form_data.append_with_blob_and_filename(&file.name(), &blob, &file.name()).unwrap();
+            form_data.append_with_blob_and_filename(&file.name(), &file, &file.name()).unwrap();
             set_data.set(Some(UploadImg::from(form_data)));
         }
     };

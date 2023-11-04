@@ -121,7 +121,6 @@ impl UploadImg {
     pub async fn upload(&self, name: &str) -> Result<NormRes, Error> {
         let url = format!("{}/{}/upload", URL, name);
         let response = Request::post(&url)
-            .header("Content-Type", "multipart/form-data")
             .body(&self.data)?.send().await?;
         response.json().await
     }
