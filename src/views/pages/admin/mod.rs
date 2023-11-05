@@ -16,7 +16,7 @@ use leptos_router::*;
 use crate::views::Loading;
 use crate::api::{ 
     NormRes, OnlyCookie,
-    // AdminInfo, AdminInfoRes
+    AdminInfoRes, // AdminInfo
 };
 use gloo_storage::{
     LocalStorage, Storage
@@ -24,6 +24,8 @@ use gloo_storage::{
 
 #[component]
 pub fn Admin() -> impl IntoView {
+    let (info, set_info) = create_signal(None::<AdminInfoRes>);
+    provide_context(info);
     view! {{
         match LocalStorage::get("login") {
             Ok(user) => {
@@ -32,7 +34,10 @@ pub fn Admin() -> impl IntoView {
                 let results = create_resource(get_info,
                     move |get: OnlyCookie| async move {
                         match get.admin_info().await {
-                            Ok(res) => Some(res),
+                            Ok(res) => {
+                                set_info.set(Some(res.clone()));
+                                Some(res)
+                            },
                             // Err(_) => {
                             //     // 调试时模拟数据
                             //     let info = AdminInfo {
@@ -49,6 +54,7 @@ pub fn Admin() -> impl IntoView {
                             //         status: "1".to_owned(),
                             //         message: "成功获得信息".to_owned()
                             //     };
+                            //     set_info.set(Some(res.clone()));
                             //     Some(res)
                             // }
                             Err(_) => {
