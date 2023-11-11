@@ -5,8 +5,13 @@ use wasm_bindgen::prelude::*;
 use web_sys::Element as WebSysElement;
 use gloo::events::EventListener;
 use gloo_utils::document;
-use gloo_storage::{ LocalStorage, Storage };
-use crate::api::{ NormRes, OnlyCookie, AdminInfoRes };
+use gloo_storage::{
+    LocalStorage, Storage
+};
+use crate::api::{
+    NormRes, OnlyCookie,
+    AdminInfoRes
+};
 
 #[wasm_bindgen(module="/node_modules\
 /tw-elements/dist/js/tw-elements.es.min.js")]
@@ -30,7 +35,8 @@ fn init_dropdown(id: &str) -> Result<Vec<(WebSysElement, Dropdown)>, JsValue> {
 }
 
 #[component]
-pub fn Header(info: AdminInfoRes) -> impl IntoView {
+pub fn Header() -> impl IntoView {
+    let info = use_context::<ReadSignal<Option<AdminInfoRes>>>().unwrap();
     let (_out, set_out) = create_signal(None::<NormRes>);
     let action = create_action(move |_| async move {
         let admin = OnlyCookie::new();
@@ -176,7 +182,7 @@ pub fn Header(info: AdminInfoRes) -> impl IntoView {
                     <div class="relative" data-te-dropdown-ref data-te-dropdown-alignment="end">
                         <a class="hidden-arrow flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none"
                             href="#" id="dropdownMenuButton2" role="button" data-te-dropdown-toggle-ref aria-expanded="false">
-                            <img src=info.data.avatar class="rounded-full"
+                            <img src=move || info.get().unwrap().data.avatar class="rounded-full"
                                 style="height: 25px; width: 25px" alt="" loading="lazy"/>
                         </a>
                         <ul class="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white \

@@ -76,7 +76,7 @@ pub fn Admin() -> impl IntoView {
                                 }.into_view(),
                                 Some(data) => {
                                     view! {
-                                        <Header info=data.clone()/>
+                                        <Header/>
                                         <Aside/>
                                         <Content>
                                             <Outlet/>

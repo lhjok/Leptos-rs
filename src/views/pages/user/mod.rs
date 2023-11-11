@@ -14,8 +14,9 @@ pub use self::error::UserError;
 use leptos::*;
 use leptos_router::*;
 use crate::views::Loading;
-use crate::api::{ 
-    NormRes, OnlyCookie
+use crate::api::{
+    NormRes, OnlyCookie,
+    UserInfoRes
 };
 use gloo_storage::{
     LocalStorage, Storage
@@ -23,6 +24,8 @@ use gloo_storage::{
 
 #[component]
 pub fn User() -> impl IntoView {
+    let (info, set_info) = create_signal(None::<UserInfoRes>);
+    provide_context(info);
     view! {{
         match LocalStorage::get("login") {
             Ok(user) => {
@@ -51,12 +54,12 @@ pub fn User() -> impl IntoView {
                                 }.into_view(),
                                 Some(data) => {
                                     view! {
-                                        <Header info=data.clone()/>
+                                        <Header/>
                                         <Aside/>
                                         <Content>
                                             <Outlet/>
+                                            <Footer/>
                                         </Content>
-                                        <Footer/>
                                     }.into_view()
                                 }
                             }
