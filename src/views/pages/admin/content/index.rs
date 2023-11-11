@@ -6,7 +6,7 @@ use leptos::*;
 #[component]
 pub fn AdminIndex() -> impl IntoView {
     view! {
-        <div class="h-full ml-10">
+        <div class="p-10">
             <h3>正在建设中...</h3>
         </div>
     }

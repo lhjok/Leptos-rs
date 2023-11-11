@@ -11,6 +11,10 @@ use crate::api::{
 
 #[component]
 pub fn AdminConfig() -> impl IntoView {
+    let (pass, set_pass) = create_signal("".to_owned());
+    let (phone, set_phone) = create_signal("".to_owned());
+    let (mail, set_mail) = create_signal("".to_owned());
+    // 上传文件信号处理
     let (data, set_data) = create_signal(None::<FormData>);
     let (_upload, set_upload) = create_signal(None::<NormRes>);
     let info = use_context::<ReadSignal<Option<AdminInfoRes>>>().unwrap();
@@ -31,14 +35,14 @@ pub fn AdminConfig() -> impl IntoView {
         }
     };
     view! {
-        <div class="h-full p-10">
+        <div class="p-10">
             <h3>系统设置</h3>
             <form on:submit=|event| event.prevent_default()>
                 <label for="formFileImg" class="mb-3 inline-block cursor-pointer \
                     text-neutral-700 dark:text-neutral-200">
                     <img src=move || info.get().unwrap().data.avatar
-                        class="rounded-full border-4 border-neutral-350 mb-0.5"
-                        style="height: 65px; width: 65px" alt="" loading="lazy"/>
+                    class="rounded-full border-4 border-neutral-350 mb-0.5"
+                    style="height: 65px; width: 65px" alt="" loading="lazy"/>
                     "更换头像"
                 </label>
                 <FileInput id="formFileImg" accept="image/*" form_data=set_data multiple=false />
@@ -57,6 +61,26 @@ pub fn AdminConfig() -> impl IntoView {
                 </button>
             </form>
             <Separator/>
+            <form on:submit=|event| event.prevent_default()>
+                <div class="md:w-8/12 lg:w-3/12 mt-8">
+                    <Stack orientation=StackOrientation::Vertical spacing=Size::Em(1.2)>
+                        <TextInput get=phone set=set_phone placeholder="修改手机号"/>
+                        <PasswordInput get=pass set=set_pass placeholder="修改密码"/>
+                        <TextInput get=mail set=set_mail placeholder="修改电子邮箱"/>
+                    </Stack>
+                    <button class="btn-upload mt-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                        class="inline-block w-5 h-5 mb-[2px] mr-1">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 \
+                            0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 \
+                            0013.803-3.7M4.031 9.865a8.25 8.25 0 \
+                            0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                        </svg>"提交"
+                    </button>
+                </div>
+            </form>
         </div>
     }
 }

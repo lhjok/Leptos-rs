@@ -80,8 +80,8 @@ pub fn Admin() -> impl IntoView {
                                         <Aside/>
                                         <Content>
                                             <Outlet/>
+                                            <Footer/>
                                         </Content>
-                                        <Footer/>
                                     }.into_view()
                                 }
                             }

@@ -12,7 +12,7 @@ pub use self::config::AdminConfig;
 #[component]
 pub fn Content(children: Children) -> impl IntoView {
     view! {
-        <section class="h-full pl-60 pt-14 pb-[378px]">
+        <section class="overflow-auto h-full pl-60 pt-14">
             { children() }
         </section>
     }

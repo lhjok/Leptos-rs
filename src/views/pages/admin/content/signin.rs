@@ -53,7 +53,7 @@ pub fn AdminSignup() -> impl IntoView {
             email.get().is_empty() || phone.get().is_empty()
     });
     view! {
-        <div class="mt-20 md:w-8/12 lg:ml-24 lg:w-4/12">
+        <div class="h-auto md:w-8/12 lg:w-4/12 m-20">
             <form on:submit=|event| event.prevent_default()>
                 <Stack orientation=StackOrientation::Vertical spacing=Size::Em(1.2)>
                     <TextInput get=name set=set_name placeholder="name *"/>
