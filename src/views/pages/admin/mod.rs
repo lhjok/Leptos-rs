@@ -74,7 +74,7 @@ pub fn Admin() -> impl IntoView {
                                 None => view! {
                                     <Redirect path="/logins"/>
                                 }.into_view(),
-                                Some(data) => {
+                                Some(_) => {
                                     view! {
                                         <Header/>
                                         <Aside/>

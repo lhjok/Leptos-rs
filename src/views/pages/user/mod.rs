@@ -34,7 +34,10 @@ pub fn User() -> impl IntoView {
                 let results = create_resource(get_info,
                     move |get: OnlyCookie| async move {
                         match get.user_info().await {
-                            Ok(res) => Some(res),
+                            Ok(res) => {
+                                set_info.set(Some(res.clone()));
+                                Some(res)
+                            },
                             Err(_) => {
                                 LocalStorage::delete("login");
                                 None
@@ -52,7 +55,7 @@ pub fn User() -> impl IntoView {
                                 None => view! {
                                     <Redirect path="/login"/>
                                 }.into_view(),
-                                Some(data) => {
+                                Some(_) => {
                                     view! {
                                         <Header/>
                                         <Aside/>
