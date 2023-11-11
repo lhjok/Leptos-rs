@@ -11,6 +11,7 @@ use crate::api::{
 
 #[component]
 pub fn AdminConfig() -> impl IntoView {
+    let (old, set_old) = create_signal("".to_owned());
     let (pass, set_pass) = create_signal("".to_owned());
     let (phone, set_phone) = create_signal("".to_owned());
     let (mail, set_mail) = create_signal("".to_owned());
@@ -65,6 +66,7 @@ pub fn AdminConfig() -> impl IntoView {
                 <div class="md:w-8/12 lg:w-3/12 mt-8">
                     <Stack orientation=StackOrientation::Vertical spacing=Size::Em(1.2)>
                         <TextInput get=phone set=set_phone placeholder="修改手机号"/>
+                        <PasswordInput get=old set=set_old placeholder="原始密码"/>
                         <PasswordInput get=pass set=set_pass placeholder="修改密码"/>
                         <TextInput get=mail set=set_mail placeholder="修改电子邮箱"/>
                     </Stack>
