@@ -73,7 +73,7 @@ impl Default for AdminInfo {
             username: String::from(""),
             password: String::from(""),
             phone: String::from(""),
-            avatar: String::from("/static/images/admin/admin.png"),
+            avatar: String::from("/static/images/admin/avatar.png"),
             status: 1
         }
     }
@@ -95,7 +95,7 @@ impl Default for UserInfo {
             username: String::from(""),
             password: String::from(""),
             phone: String::from(""),
-            avatar: String::from("/static/images/user/user.png"),
+            avatar: String::from("/static/images/user/avatar.png"),
             status: 1
         }
     }

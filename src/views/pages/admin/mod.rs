@@ -16,7 +16,7 @@ use leptos_router::*;
 use crate::views::Loading;
 use crate::api::{ 
     NormRes, OnlyCookie,
-    AdminInfoRes, // AdminInfo
+    AdminInfoRes, AdminInfo
 };
 use gloo_storage::{
     LocalStorage, Storage
@@ -38,29 +38,29 @@ pub fn Admin() -> impl IntoView {
                                 set_info.set(Some(res.clone()));
                                 Some(res)
                             },
-                            // Err(_) => {
-                            //     // 调试时模拟数据
-                            //     let info = AdminInfo {
-                            //         id: 1,
-                            //         mail: "lhjok@live.cn".to_owned(),
-                            //         username: "admin".to_owned(),
-                            //         password: "12345678".to_owned(),
-                            //         phone: "13387073000".to_owned(),
-                            //         avatar: "/static/images/admin/admin-IQX2kk-avatar.jpg".to_owned(),
-                            //         status: 1
-                            //     };
-                            //     let res = AdminInfoRes {
-                            //         data: info,
-                            //         status: "1".to_owned(),
-                            //         message: "成功获得信息".to_owned()
-                            //     };
-                            //     set_info.set(Some(res.clone()));
-                            //     Some(res)
-                            // }
                             Err(_) => {
-                                LocalStorage::delete("login");
-                                None
+                                // 调试时模拟数据
+                                let info = AdminInfo {
+                                    id: 1,
+                                    mail: "lhjok@live.cn".to_owned(),
+                                    username: "admin".to_owned(),
+                                    password: "12345678".to_owned(),
+                                    phone: "13387073000".to_owned(),
+                                    avatar: "/static/images/admin/admin-IQX2kk-avatar.jpg".to_owned(),
+                                    status: 1
+                                };
+                                let res = AdminInfoRes {
+                                    data: info,
+                                    status: "1".to_owned(),
+                                    message: "成功获得信息".to_owned()
+                                };
+                                set_info.set(Some(res.clone()));
+                                Some(res)
                             }
+                            // Err(_) => {
+                            //     LocalStorage::delete("login");
+                            //     None
+                            // }
                         }
                     }
                 );
